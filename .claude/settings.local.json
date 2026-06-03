@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:\\\\Users\\\\DELL\\\\Desktop\\\\TESTING\\\\Am\\\\CIL-Prep\\\\css\" \"c:\\\\Users\\\\DELL\\\\Desktop\\\\TESTING\\\\Am\\\\CIL-Prep\\\\js\" 2>/dev/null; echo \"done\")",
+      "Bash(Select-Object FullName, Length)",
+      "PowerShell(Start-Process \"c:\\\\Users\\\\DELL\\\\Desktop\\\\TESTING\\\\Am\\\\CIL-Prep\\\\index.html\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\DELL\\Desktop\\TESTING\\Am\\CIL-Prep"
+    ]
+  }
+}
