@@ -1304,6 +1304,45 @@ function renderFormulas(subjectId) {
 }
 
 // ── FORMULA SHEET — Visual Lab tab ───────────────────────────────────────────
+const _vizParams = {}; // stores current param values per viz id
+
+function _findVizEntry(id) {
+  if (typeof vizMap === 'undefined') return null;
+  for (const arr of Object.values(vizMap)) {
+    const v = arr.find(x => x.id === id);
+    if (v) return v;
+  }
+  return null;
+}
+
+function _updateVizParam(vizId, paramId, value, unit) {
+  if (!_vizParams[vizId]) _vizParams[vizId] = {};
+  _vizParams[vizId][paramId] = parseFloat(value);
+  const lbl = document.getElementById(`vlbl-${vizId}-${paramId}`);
+  if (lbl) lbl.textContent = parseFloat(value) + (unit ? ' ' + unit : '');
+  const canvas = document.getElementById('viz-canvas-' + vizId);
+  const vEntry = _findVizEntry(vizId);
+  if (canvas && vEntry && typeof vEntry.fn === 'function') {
+    if (typeof stopViz === 'function') stopViz(vizId);
+    try { vEntry.fn(canvas, _vizParams[vizId]); } catch(e) {}
+  }
+}
+
+function _buildControls(v) {
+  if (!v.controls || !v.controls.length) return '';
+  return `<div class="viz-controls">${v.controls.map(ctrl=>`
+    <div class="viz-ctrl">
+      <div class="viz-ctrl-head">
+        <span class="viz-ctrl-label">${ctrl.label}</span>
+        <span class="viz-ctrl-val" id="vlbl-${v.id}-${ctrl.id}">${ctrl.val}${ctrl.unit?' '+ctrl.unit:''}</span>
+      </div>
+      <input class="viz-ctrl-range" type="range"
+        min="${ctrl.min}" max="${ctrl.max}" step="${ctrl.step}" value="${ctrl.val}"
+        oninput="_updateVizParam('${v.id}','${ctrl.id}',this.value,'${ctrl.unit||''}')">
+    </div>`).join('')}
+  </div>`;
+}
+
 function renderVisualLab(subjectId) {
   const el = document.getElementById('visual-lab-content');
   if (!el) return;
@@ -1321,24 +1360,32 @@ function renderVisualLab(subjectId) {
     return;
   }
 
-  el.innerHTML = `<div class="viz-grid">${vizzes.map(v=>`
+  el.innerHTML = `<div class="viz-grid">${vizzes.map(v=>{
+    // seed default params
+    if (!_vizParams[v.id]) {
+      _vizParams[v.id] = {};
+      (v.controls||[]).forEach(c=>{ _vizParams[v.id][c.id] = c.val; });
+    }
+    return `
     <div class="viz-card">
       <div class="viz-card-header">
         <div class="viz-card-dot" style="background:${col}"></div>
         <div class="viz-card-title">${v.title}</div>
       </div>
       <div class="viz-canvas-wrap">
-        <canvas id="viz-canvas-${v.id}" style="width:100%;height:230px"></canvas>
+        <canvas id="viz-canvas-${v.id}" style="width:100%;height:300px"></canvas>
       </div>
+      ${_buildControls(v)}
       <div class="viz-card-footer">${v.desc}</div>
-    </div>`).join('')}
+    </div>`;
+  }).join('')}
   </div>`;
 
   requestAnimationFrame(()=>{
     vizzes.forEach(v=>{
       const c = document.getElementById('viz-canvas-'+v.id);
       if (c && typeof v.fn === 'function') {
-        try { v.fn(c); } catch(e) { console.warn('viz error:', v.id, e); }
+        try { v.fn(c, _vizParams[v.id]||{}); } catch(e) { console.warn('viz error:', v.id, e); }
       }
     });
   });
