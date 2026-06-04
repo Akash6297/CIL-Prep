@@ -442,18 +442,52 @@
 
   <!-- ══ FORMULA SHEET ══ -->
   <div class="section" id="sec-formulas">
-    <div class="page-header"><h2>Formula Sheet</h2><p>All key formulas, shortcuts, and grammar rules — use this daily for revision before the exam</p></div>
-    <div class="formula-tabs">
-      <button class="formula-tab active" data-fsubj="digital"        onclick="renderFormulas('digital')">Digital</button>
-      <button class="formula-tab" data-fsubj="network"        onclick="renderFormulas('network')">Network</button>
-      <button class="formula-tab" data-fsubj="analog"         onclick="renderFormulas('analog')">Analog</button>
-      <button class="formula-tab" data-fsubj="signals"        onclick="renderFormulas('signals')">Signals</button>
-      <button class="formula-tab" data-fsubj="control"        onclick="renderFormulas('control')">Control</button>
-      <button class="formula-tab" data-fsubj="communications" onclick="renderFormulas('communications')">Comms</button>
-      <button class="formula-tab" data-fsubj="aptitude"       onclick="renderFormulas('aptitude')">Aptitude</button>
-      <button class="formula-tab" data-fsubj="english"        onclick="renderFormulas('english')">English</button>
+    <div class="page-header">
+      <h2>Formula Sheet</h2>
+      <p>Read formulas · watch animated Visual Lab demos · practice with flashcards &amp; quizzes</p>
     </div>
-    <div id="formula-content"></div>
+
+    <!-- Subject tabs -->
+    <div class="formula-tabs" id="formula-subject-tabs">
+      <button class="formula-tab active" data-fsubj="digital"        onclick="switchFormulaSubject('digital')">Digital</button>
+      <button class="formula-tab" data-fsubj="network"        onclick="switchFormulaSubject('network')">Network</button>
+      <button class="formula-tab" data-fsubj="analog"         onclick="switchFormulaSubject('analog')">Analog</button>
+      <button class="formula-tab" data-fsubj="signals"        onclick="switchFormulaSubject('signals')">Signals</button>
+      <button class="formula-tab" data-fsubj="control"        onclick="switchFormulaSubject('control')">Control</button>
+      <button class="formula-tab" data-fsubj="communications" onclick="switchFormulaSubject('communications')">Comms</button>
+      <button class="formula-tab" data-fsubj="aptitude"       onclick="switchFormulaSubject('aptitude')">Aptitude</button>
+      <button class="formula-tab" data-fsubj="english"        onclick="switchFormulaSubject('english')">English</button>
+    </div>
+
+    <!-- Mode tabs: Formulas | Visual Lab | Practice -->
+    <div class="fmode-bar">
+      <div class="fmode-tabs">
+        <button class="fmode-tab active" data-fmode="formulas"  onclick="switchFormulaMode('formulas')">
+          📋 Formulas
+        </button>
+        <button class="fmode-tab" data-fmode="visual"    onclick="switchFormulaMode('visual')">
+          🎬 Visual Lab
+        </button>
+        <button class="fmode-tab" data-fmode="practice"  onclick="switchFormulaMode('practice')">
+          🧠 Practice
+        </button>
+      </div>
+    </div>
+
+    <!-- Formulas pane -->
+    <div id="formula-pane-formulas">
+      <div id="formula-content"></div>
+    </div>
+
+    <!-- Visual Lab pane -->
+    <div id="formula-pane-visual" style="display:none">
+      <div id="visual-lab-content"></div>
+    </div>
+
+    <!-- Practice pane -->
+    <div id="formula-pane-practice" style="display:none">
+      <div id="practice-content"></div>
+    </div>
   </div>
 
   <!-- ══ EXAM INFO ══ -->
@@ -557,6 +591,7 @@
 <!-- YouTube iframe API — must load before app.js -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="js/questions.js"></script>
+<script src="js/visualizations.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

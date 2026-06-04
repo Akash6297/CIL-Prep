@@ -849,11 +849,38 @@ svg { display: block; flex-shrink: 0; }
 .formula-group { margin-bottom: 24px; }
 .fg-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid var(--primary); color: var(--text); }
 
-.formula-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-.formula-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px 16px; box-shadow: var(--shadow-xs); }
-.fc-name    { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
-.fc-formula { font-family: 'Consolas', 'JetBrains Mono', monospace; font-size: 13.5px; color: var(--primary-text); background: var(--primary-muted); padding: 8px 10px; border-radius: var(--r-sm); margin-bottom: 6px; line-height: 1.5; word-break: break-word; }
-.fc-tip     { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+.formula-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.formula-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .2s, transform .2s;
+}
+.formula-card:hover { box-shadow: var(--shadow); transform: translateY(-1px); }
+
+/* Formula card text — explicitly scoped so flashcard overrides can't bleed in */
+.formula-card .fc-name {
+  font-size: 11px; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px;
+}
+.formula-card .fc-formula {
+  font-family: 'Consolas', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 13.5px; font-weight: 600;
+  color: var(--text);                       /* always visible in both themes */
+  background: var(--primary-muted);
+  border: 1px solid rgba(59,130,246,.18);
+  padding: 9px 12px; border-radius: var(--r-sm);
+  margin-bottom: 8px; line-height: 1.6; word-break: break-word;
+}
+[data-theme="dark"] .formula-card .fc-formula {
+  color: #93c5fd;                           /* bright blue in dark mode — readable */
+  background: rgba(59,130,246,.12);
+  border-color: rgba(59,130,246,.25);
+}
+.formula-card .fc-tip {
+  font-size: 12px; color: var(--text-muted); line-height: 1.5;
+  padding-left: 4px; border-left: 2px solid var(--border);
+}
 
 /* ── EXAM INFO ───────────────────────────────────────────────────────────────── */
 .exam-paper-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px; margin-bottom: 16px; }
@@ -934,3 +961,256 @@ svg { display: block; flex-shrink: 0; }
 
 /* ── FORMULA TABS — wider to fit Aptitude + English ─────────────────────────── */
 .formula-tabs { flex-wrap: wrap; }
+
+/* ══════════════════════════════════════════════════════════
+   FORMULA MODE TABS (Formulas | Visual Lab | Practice)
+   ══════════════════════════════════════════════════════════ */
+.fmode-bar {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 18px; flex-wrap: wrap;
+}
+.fmode-tabs {
+  display: flex; gap: 4px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--r); padding: 4px;
+}
+.fmode-tab {
+  padding: 7px 18px; border-radius: calc(var(--r) - 2px); border: none;
+  background: transparent; color: var(--text-muted); font-size: 13px;
+  font-weight: 500; cursor: pointer; transition: all .2s; white-space: nowrap;
+}
+.fmode-tab.active {
+  background: var(--card); color: var(--text); box-shadow: var(--shadow-sm);
+}
+.fmode-tab:hover:not(.active) { color: var(--text); background: var(--border); }
+
+/* ── VISUAL LAB ─────────────────────────────────────────── */
+.viz-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .viz-grid { grid-template-columns: 1fr; }
+}
+.viz-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-xl); overflow: hidden;
+  box-shadow: var(--shadow); transition: box-shadow .3s, transform .3s;
+}
+.viz-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); }
+.viz-card-header {
+  padding: 14px 18px 12px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  background: linear-gradient(to right, var(--bg), var(--card));
+}
+.viz-card-dot {
+  width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  box-shadow: 0 0 6px currentColor;
+}
+.viz-card-title { font-weight: 700; font-size: 14px; flex: 1; color: var(--text); }
+.viz-canvas-wrap {
+  background: var(--bg); padding: 12px 12px 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.viz-canvas-wrap canvas {
+  display: block; width: 100%; height: 240px;
+  border-radius: var(--r); cursor: default;
+}
+.viz-card-footer {
+  padding: 10px 16px 12px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text-muted); line-height: 1.6;
+  background: var(--bg);
+}
+
+/* ── PRACTICE MODE ──────────────────────────────────────── */
+.practice-wrap { max-width: 680px; margin: 0 auto; }
+.practice-top {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap;
+}
+.practice-mode-toggle {
+  display: flex; gap: 4px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--r-lg); padding: 5px;
+  box-shadow: var(--shadow-xs);
+}
+.pmt-btn {
+  padding: 8px 18px; border-radius: var(--r); border: none;
+  background: transparent; color: var(--text-muted); font-size: 13px;
+  font-weight: 600; cursor: pointer; transition: all .2s; display: flex; align-items: center; gap: 6px;
+}
+.pmt-btn.active {
+  background: var(--primary); color: white; box-shadow: var(--shadow-sm);
+}
+.pmt-btn:not(.active):hover { background: var(--border); color: var(--text); }
+.practice-progress-bar {
+  flex: 1; height: 8px; background: var(--border);
+  border-radius: var(--r-full); overflow: hidden; min-width: 80px;
+}
+.practice-progress-fill {
+  height: 100%; border-radius: var(--r-full); background: linear-gradient(90deg, var(--primary), #6366f1);
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+}
+.practice-counter {
+  font-size: 13px; color: var(--text-muted); font-weight: 600; white-space: nowrap;
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-full);
+  padding: 4px 12px;
+}
+
+/* Flashcard 3D flip */
+.flashcard-scene {
+  perspective: 1200px; margin: 0 auto 18px; height: 240px; cursor: pointer;
+  user-select: none;
+}
+.flashcard {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d;
+  transition: transform .55s cubic-bezier(.4,0,.2,1);
+}
+.flashcard.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: var(--r-lg);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 28px 24px; text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+.flashcard-front {
+  background: var(--card); border: 2px solid var(--border);
+}
+.flashcard-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #1d4ed8, #6366f1);
+  color: white;
+}
+/* Flashcard-specific text — scoped to avoid bleeding into formula cards */
+.flashcard .fc-label {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; opacity: .55; margin-bottom: 10px;
+}
+.flashcard-front .fc-card-name {
+  font-size: 22px; font-weight: 800; color: var(--text);
+  line-height: 1.3; margin-bottom: 8px;
+}
+.flashcard-front .fc-card-group {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .06em; margin-bottom: 12px;
+}
+.flashcard-front .fc-card-hint {
+  font-size: 13px; color: var(--text-muted); line-height: 1.6;
+  padding: 10px 16px; background: var(--bg); border-radius: var(--r);
+  border: 1px solid var(--border);
+}
+.flashcard-back .fc-card-formula {
+  font-size: 18px; font-weight: 700;
+  font-family: 'Courier New', 'Consolas', monospace;
+  color: white; line-height: 1.6; word-break: break-word; margin-bottom: 10px;
+  padding: 12px 16px; background: rgba(255,255,255,.12); border-radius: var(--r);
+}
+.flashcard-back .fc-card-tip { font-size: 12.5px; opacity: .85; line-height: 1.5; color: #e0e7ff; }
+.fc-flip-hint {
+  font-size: 11px; color: var(--text-muted); text-align: center;
+  margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.practice-actions {
+  display: flex; gap: 10px; justify-content: center; margin-bottom: 20px;
+}
+.pa-btn {
+  flex: 1; max-width: 200px; padding: 13px 20px;
+  border-radius: var(--r); font-size: 14px; font-weight: 600;
+  border: none; cursor: pointer; transition: all .15s;
+}
+.pa-ok   { background: var(--success); color: white; }
+.pa-ok:hover   { filter: brightness(1.1); }
+.pa-miss { background: var(--warning-muted); color: var(--warning); border: 1.5px solid var(--warning); }
+.pa-miss:hover { background: var(--warning); color: white; }
+
+/* MCQ Practice */
+.mcq-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-xl); padding: 28px 26px; margin-bottom: 16px;
+  box-shadow: var(--shadow-lg); border-top: 4px solid var(--primary);
+}
+.mcq-q-meta {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.mcq-q-badge {
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: var(--r-full);
+  background: var(--primary-muted); color: var(--primary); text-transform: uppercase; letter-spacing: .06em;
+}
+.mcq-q-text {
+  font-size: 16px; font-weight: 700; line-height: 1.6; margin-bottom: 20px;
+  color: var(--text);
+}
+.mcq-q-text strong { color: var(--primary); }
+.mcq-opts { display: grid; gap: 11px; }
+.mcq-opt {
+  padding: 13px 18px; border-radius: var(--r-lg); border: 2px solid var(--border);
+  background: var(--bg); text-align: left; cursor: pointer;
+  font-size: 13.5px; font-family: 'Courier New', monospace;
+  transition: all .18s; display: flex; align-items: center; gap: 14px;
+  color: var(--text); font-weight: 500;
+}
+.mcq-opt:hover:not([disabled]) {
+  border-color: var(--primary); background: var(--primary-muted);
+  transform: translateX(4px);
+}
+.mcq-opt.correct {
+  border-color: var(--success); background: var(--success-muted);
+  color: var(--success); font-weight: 700;
+}
+[data-theme="dark"] .mcq-opt.correct { color: #34d399; }
+.mcq-opt.wrong {
+  border-color: var(--danger); background: var(--danger-muted);
+  color: var(--danger); font-weight: 700;
+}
+.mcq-opt-key {
+  width: 30px; height: 30px; border-radius: 50%; background: var(--card);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 12px; flex-shrink: 0; border: 2px solid var(--border);
+  transition: all .18s;
+}
+.mcq-opt:hover:not([disabled]) .mcq-opt-key { border-color: var(--primary); background: var(--primary); color: white; }
+.mcq-opt.correct .mcq-opt-key { border-color: var(--success); background: var(--success); color: white; }
+.mcq-opt.wrong   .mcq-opt-key { border-color: var(--danger);  background: var(--danger);  color: white; }
+.mcq-feedback {
+  margin-top: 16px; padding: 13px 16px; border-radius: var(--r-lg);
+  font-size: 13.5px; display: none; line-height: 1.6; font-weight: 500;
+}
+.mcq-feedback.show { display: block; }
+.mcq-feedback.c-fb {
+  background: var(--success-muted); color: var(--success);
+  border: 1px solid rgba(16,185,129,.25);
+}
+[data-theme="dark"] .mcq-feedback.c-fb { color: #34d399; }
+.mcq-feedback.w-fb {
+  background: var(--danger-muted); color: var(--danger);
+  border: 1px solid rgba(239,68,68,.25);
+}
+
+/* Practice results */
+.practice-results {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 36px 24px; text-align: center;
+  box-shadow: var(--shadow-lg);
+}
+.pr-icon {
+  width: 70px; height: 70px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.pr-title { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+.pr-sub   { font-size: 14px; color: var(--text-muted); margin-bottom: 22px; }
+.pr-stats {
+  display: flex; gap: 16px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap;
+}
+.pr-stat {
+  padding: 14px 22px; background: var(--bg);
+  border-radius: var(--r); border: 1px solid var(--border); min-width: 80px;
+}
+.pr-stat-num { font-size: 26px; font-weight: 800; }
+.pr-stat-lbl { font-size: 11px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+
+/* ── Empty viz state */
+.viz-empty {
+  text-align: center; padding: 60px 24px; color: var(--text-muted);
+}
+.viz-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.viz-empty p { font-size: 14px; }

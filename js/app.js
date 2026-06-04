@@ -656,6 +656,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderQuickChips();
   renderMistakeBook('all');
   renderFormulas('digital');
+  // Patch: wire formula subject tabs to new handler (HTML uses switchFormulaSubject)
+
   renderExamInfo();
   updateVideoBadge();
   updateExamCountdown();
@@ -669,6 +671,8 @@ const sectionTitles = {
   mistakebook:'Mistake Book', formulas:'Formula Sheet', examinfo:'Exam Info',
 };
 function navigateTo(id) {
+  // Stop canvas animations when leaving formula section
+  if (id !== 'formulas' && typeof stopAllViz === 'function') stopAllViz();
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(a => a.classList.remove('active'));
   document.getElementById('sec-' + id)?.classList.add('active');
@@ -1252,11 +1256,38 @@ function saveVNotes() {
   showToast('Notes saved','ok');
 }
 
-// ── FORMULA SHEET ─────────────────────────────────────────────────────────────
+// ── FORMULA SHEET — State ─────────────────────────────────────────────────────
+let _fSubject = 'digital';
+let _fMode    = 'formulas';
+const _practiceState = { cards:[], idx:0, got:0, missed:0, mode:'flash', revealed:false };
+
+function switchFormulaSubject(id) {
+  _fSubject = id;
+  document.querySelectorAll('.formula-tab').forEach(t=>t.classList.toggle('active',t.dataset.fsubj===id));
+  _applyFormulaMode(_fMode);
+}
+
+function switchFormulaMode(mode) {
+  _fMode = mode;
+  document.querySelectorAll('.fmode-tab').forEach(t=>t.classList.toggle('active',t.dataset.fmode===mode));
+  if (mode !== 'visual' && typeof stopAllViz === 'function') stopAllViz();
+  _applyFormulaMode(mode);
+}
+
+function _applyFormulaMode(mode) {
+  ['formulas','visual','practice'].forEach(m=>{
+    const p=document.getElementById('formula-pane-'+m);
+    if(p) p.style.display = m===mode?'':'none';
+  });
+  if (mode==='formulas')  renderFormulas(_fSubject);
+  if (mode==='visual')    renderVisualLab(_fSubject);
+  if (mode==='practice')  renderPractice(_fSubject);
+}
+
+// ── FORMULA SHEET — Formulas tab ─────────────────────────────────────────────
 function renderFormulas(subjectId) {
   const subj = formulaData.find(f=>f.id===subjectId);
-  document.querySelectorAll('.formula-tab').forEach(t=>t.classList.toggle('active',t.dataset.fsubj===subjectId));
-  const el = document.getElementById('formula-content');
+  const el   = document.getElementById('formula-content');
   if (!el || !subj) return;
   el.innerHTML = subj.groups.map(g=>`
   <div class="formula-group">
@@ -1270,6 +1301,270 @@ function renderFormulas(subjectId) {
       </div>`).join('')}
     </div>
   </div>`).join('');
+}
+
+// ── FORMULA SHEET — Visual Lab tab ───────────────────────────────────────────
+function renderVisualLab(subjectId) {
+  const el = document.getElementById('visual-lab-content');
+  if (!el) return;
+  if (typeof stopAllViz === 'function') stopAllViz();
+
+  const vizzes = (typeof vizMap !== 'undefined') ? (vizMap[subjectId] || []) : [];
+  const subj   = formulaData.find(f=>f.id===subjectId);
+  const col    = subj ? subj.color : '#3b82f6';
+
+  if (!vizzes.length) {
+    el.innerHTML = `<div class="viz-empty">
+      <div class="viz-empty-icon">📖</div>
+      <p>Visual Lab animations are coming for this subject.<br>Use the Formulas tab to review all rules and examples.</p>
+    </div>`;
+    return;
+  }
+
+  el.innerHTML = `<div class="viz-grid">${vizzes.map(v=>`
+    <div class="viz-card">
+      <div class="viz-card-header">
+        <div class="viz-card-dot" style="background:${col}"></div>
+        <div class="viz-card-title">${v.title}</div>
+      </div>
+      <div class="viz-canvas-wrap">
+        <canvas id="viz-canvas-${v.id}" style="width:100%;height:230px"></canvas>
+      </div>
+      <div class="viz-card-footer">${v.desc}</div>
+    </div>`).join('')}
+  </div>`;
+
+  requestAnimationFrame(()=>{
+    vizzes.forEach(v=>{
+      const c = document.getElementById('viz-canvas-'+v.id);
+      if (c && typeof v.fn === 'function') {
+        try { v.fn(c); } catch(e) { console.warn('viz error:', v.id, e); }
+      }
+    });
+  });
+}
+
+// ── FORMULA SHEET — Practice tab ─────────────────────────────────────────────
+function renderPractice(subjectId) {
+  const el = document.getElementById('practice-content');
+  if (!el) return;
+
+  const subj  = formulaData.find(f=>f.id===subjectId);
+  const cards = [];
+  if (subj) {
+    subj.groups.forEach(g=>{
+      g.items.forEach(item=>{
+        cards.push({ name:item.name, formula:item.formula, tip:item.tip||'', group:g.title });
+      });
+    });
+  }
+
+  if (!cards.length) {
+    el.innerHTML = '<div class="viz-empty"><p>No formulas to practice for this subject yet.</p></div>';
+    return;
+  }
+
+  const shuffled = shuffle([...cards]);
+  _practiceState.cards   = shuffled;
+  _practiceState.idx     = 0;
+  _practiceState.got     = 0;
+  _practiceState.missed  = 0;
+  _practiceState.mode    = 'flash';
+  _practiceState.revealed= false;
+
+  el.innerHTML = `
+  <div class="practice-wrap">
+    <div class="practice-top">
+      <div class="practice-mode-toggle">
+        <button class="pmt-btn active" id="pmt-flash" onclick="setPracticeMode('flash')">🃏 Flashcards</button>
+        <button class="pmt-btn" id="pmt-mcq" onclick="setPracticeMode('mcq')">🧩 Quiz (MCQ)</button>
+      </div>
+      <div class="practice-progress-bar">
+        <div class="practice-progress-fill" id="pr-fill" style="width:0%"></div>
+      </div>
+      <div class="practice-counter" id="pr-counter">1 / ${cards.length}</div>
+    </div>
+    <div id="practice-main"></div>
+  </div>`;
+
+  _renderPracticeCard();
+}
+
+function setPracticeMode(mode) {
+  _practiceState.mode    = mode;
+  _practiceState.idx     = 0;
+  _practiceState.got     = 0;
+  _practiceState.missed  = 0;
+  _practiceState.revealed= false;
+  document.getElementById('pmt-flash')?.classList.toggle('active', mode==='flash');
+  document.getElementById('pmt-mcq')?.classList.toggle('active',  mode==='mcq');
+  _renderPracticeCard();
+}
+
+function _renderPracticeCard() {
+  const {cards,idx,mode,revealed} = _practiceState;
+  const el = document.getElementById('practice-main');
+  if (!el) return;
+
+  if (idx >= cards.length) { _renderPracticeResults(); return; }
+
+  const card = cards[idx];
+  const pct  = Math.round((idx / cards.length) * 100);
+  const fill = document.getElementById('pr-fill');
+  if (fill) fill.style.width = pct + '%';
+  const ctr = document.getElementById('pr-counter');
+  if (ctr)  ctr.textContent = (idx+1) + ' / ' + cards.length;
+
+  const subj = formulaData.find(f=>f.id===_fSubject);
+  const subjColor = subj ? subj.color : '#3b82f6';
+
+  if (mode === 'flash') {
+    el.innerHTML = `
+    <div class="fc-flip-hint">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+      Click the card to reveal the formula
+    </div>
+    <div class="flashcard-scene" onclick="revealFlashcard()" style="border-top:3px solid ${subjColor};border-radius:var(--r-xl)">
+      <div class="flashcard${revealed?' flipped':''}" id="fc-card">
+        <div class="flashcard-face flashcard-front">
+          <div class="flashcard .fc-label"
+               style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.5;margin-bottom:10px">
+            ${card.group}
+          </div>
+          <div class="fc-card-name" style="font-size:22px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:12px">${card.name}</div>
+          <div class="fc-card-hint" style="font-size:13px;color:var(--text-muted);line-height:1.6;padding:10px 16px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border);width:100%;box-sizing:border-box">
+            ${card.tip ? '💡 ' + card.tip : '🧠 Tap to reveal the formula'}
+          </div>
+        </div>
+        <div class="flashcard-face flashcard-back" style="background:linear-gradient(135deg,${subjColor},#6366f1)">
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:10px;color:white">
+            ${card.group}
+          </div>
+          <div style="font-size:17px;font-weight:700;font-family:'Courier New',monospace;color:white;line-height:1.6;word-break:break-word;margin-bottom:10px;padding:12px 16px;background:rgba(255,255,255,.15);border-radius:var(--r);width:100%;box-sizing:border-box;text-align:center">
+            ${card.formula}
+          </div>
+          <div style="font-size:12px;opacity:.85;line-height:1.5;color:rgba(255,255,255,.9)">
+            ${card.tip ? '💡 ' + card.tip : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+    ${revealed ? `
+    <div class="practice-actions">
+      <button class="pa-btn pa-ok"   onclick="practiceNext(true)">✓ Got It!</button>
+      <button class="pa-btn pa-miss" onclick="practiceNext(false)">↻ Review Again</button>
+    </div>` : ''}`;
+  } else {
+    // MCQ
+    const wrongPool = cards.filter((_,i)=>i!==idx);
+    const wrongs    = shuffle(wrongPool).slice(0,3).map(c=>c.formula);
+    const options   = shuffle([card.formula, ...wrongs]);
+    const correct   = options.indexOf(card.formula);
+    const keys      = ['A','B','C','D'];
+
+    el.innerHTML = `
+    <div class="mcq-card" style="border-top-color:${subjColor}">
+      <div class="mcq-q-meta">
+        <span class="mcq-q-badge" style="background:${subjColor}22;color:${subjColor}">${card.group}</span>
+      </div>
+      <div class="mcq-q-text">What is the formula for <strong style="color:${subjColor}">${card.name}</strong>?</div>
+      <div class="mcq-opts">
+        ${options.map((opt,i)=>`
+        <button class="mcq-opt" id="mcq-${i}" onclick="selectMCQ(${i},${correct},${idx})">
+          <span class="mcq-opt-key">${keys[i]}</span>
+          <span>${opt}</span>
+        </button>`).join('')}
+      </div>
+      <div class="mcq-feedback" id="mcq-fb"></div>
+    </div>`;
+  }
+}
+
+function revealFlashcard() {
+  if (_practiceState.revealed) return;
+  _practiceState.revealed = true;
+  const card = document.getElementById('fc-card');
+  if (card) card.classList.add('flipped');
+  setTimeout(()=>_renderPracticeCard(), 620);
+}
+
+function practiceNext(got) {
+  if (got) _practiceState.got++; else _practiceState.missed++;
+  _practiceState.idx++;
+  _practiceState.revealed = false;
+  _renderPracticeCard();
+}
+
+function selectMCQ(chosen, correct, idx) {
+  document.querySelectorAll('.mcq-opt').forEach(b=>b.disabled=true);
+  const cb = document.getElementById('mcq-'+chosen);
+  const rb = document.getElementById('mcq-'+correct);
+  if (rb) rb.classList.add('correct');
+  if (cb && chosen!==correct) cb.classList.add('wrong');
+  const fb = document.getElementById('mcq-fb');
+  if (fb) {
+    fb.className = 'mcq-feedback show '+(chosen===correct?'c-fb':'w-fb');
+    const c = _practiceState.cards[idx];
+    fb.innerHTML = chosen===correct
+      ? '✓ Correct! ' + (c.tip||'')
+      : '✗ Correct: ' + c.formula + (c.tip?'<br>💡 '+c.tip:'');
+  }
+  setTimeout(()=>practiceNext(chosen===correct), 1900);
+}
+
+function _renderPracticeResults() {
+  const {got,missed,cards} = _practiceState;
+  const total = cards.length, pct = Math.round((got/total)*100);
+  const el = document.getElementById('practice-main');
+  if (!el) return;
+  const fill = document.getElementById('pr-fill');
+  if (fill) fill.style.width = '100%';
+
+  const subj = formulaData.find(f=>f.id===_fSubject);
+  const subjCol = subj ? subj.color : '#3b82f6';
+  const msg  = pct>=80?'Formulas locked in! 🎉':pct>=50?'Good progress! Review the missed ones 📖':'Keep practicing — repetition builds memory 💪';
+  const col  = pct>=80?'#10b981':pct>=50?'#f59e0b':'#ef4444';
+  const bg   = pct>=80?'var(--success-muted)':pct>=50?'var(--warning-muted)':'var(--danger-muted)';
+
+  // Score ring
+  const circ = 2*Math.PI*36;
+  const offset = circ*(1-pct/100);
+
+  el.innerHTML = `
+  <div class="practice-results" style="border-top:4px solid ${subjCol}">
+    <div style="position:relative;width:96px;height:96px;margin:0 auto 18px">
+      <svg width="96" height="96" viewBox="0 0 96 96">
+        <circle cx="48" cy="48" r="36" fill="none" stroke="var(--border)" stroke-width="8"/>
+        <circle cx="48" cy="48" r="36" fill="none" stroke="${col}" stroke-width="8"
+          stroke-linecap="round" stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+          transform="rotate(-90 48 48)" style="transition:stroke-dashoffset 1s ease"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <span style="font-size:20px;font-weight:900;color:${col}">${pct}%</span>
+      </div>
+    </div>
+    <div class="pr-title" style="color:${col}">${pct>=80?'Excellent!':pct>=50?'Good Job!':'Keep Going!'}</div>
+    <div class="pr-sub">${msg}</div>
+    <div class="pr-stats">
+      <div class="pr-stat">
+        <div class="pr-stat-num" style="color:#10b981">${got}</div>
+        <div class="pr-stat-lbl">✓ Got It</div>
+      </div>
+      <div class="pr-stat">
+        <div class="pr-stat-num" style="color:#ef4444">${missed}</div>
+        <div class="pr-stat-lbl">↻ Missed</div>
+      </div>
+      <div class="pr-stat">
+        <div class="pr-stat-num" style="color:${subjCol}">${total}</div>
+        <div class="pr-stat-lbl">Total</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="renderPractice('${_fSubject}')">🔄 Practice Again</button>
+      <button class="btn btn-ghost"   onclick="switchFormulaMode('visual')">🎬 Watch Visual Lab</button>
+      <button class="btn btn-ghost"   onclick="switchFormulaMode('formulas')">📋 Review Formulas</button>
+    </div>
+  </div>`;
 }
 
 // ── EXAM INFO ─────────────────────────────────────────────────────────────────
