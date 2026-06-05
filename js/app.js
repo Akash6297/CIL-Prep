@@ -457,6 +457,103 @@ const examInfoData = {
   ],
 };
 
+// ── FORMULA APPLICATION MCQs  (CIL exam-style questions) ──────────────────────
+// { q, opts:[4], ans(0-based), exp, topic, diff:'E'|'M'|'H' }
+const formulaMCQData = {
+  digital: [
+    { diff:'E', topic:'Number Systems',  q:"2's complement of binary 0110 is:",                                              opts:['0110','1001','1010','1111'], ans:2, exp:"Step 1 — Flip bits: 0110 → 1001. Step 2 — Add 1: 1001 + 1 = 1010" },
+    { diff:'E', topic:'Number Systems',  q:"How many flip-flops are needed for a MOD-12 counter?",                           opts:['2','3','4','5'], ans:2, exp:"2³=8 < 12, 2⁴=16 ≥ 12 → 4 flip-flops needed (with some states unused)" },
+    { diff:'E', topic:'Number Systems',  q:"Gray code equivalent of binary 0111 is:",                                        opts:['0100','0101','0110','0111'], ans:0, exp:"MSB same; each subsequent bit = XOR(adjacent binary bits). 0111 → 0100" },
+    { diff:'E', topic:'Number Systems',  q:"Decimal 255 in hexadecimal is:",                                                  opts:['EF','FE','FF','F0'], ans:2, exp:"255 ÷ 16 = 15 rem 15 → F F = 0xFF" },
+    { diff:'M', topic:'Boolean Algebra', q:"De Morgan's Law: (A·B)' simplifies to:",                                         opts:["A'·B'","A'+B'","A+B","A·B"], ans:1, exp:"(A·B)' = A'+B' — NAND = OR of NOTs (De Morgan's 2nd law)" },
+    { diff:'E', topic:'Boolean Algebra', q:"Simplify using Absorption law: A + AB =?",                                       opts:['AB','A+B','A','B'], ans:2, exp:"A + AB = A(1+B) = A×1 = A (Absorption law)" },
+    { diff:'M', topic:'Boolean Algebra', q:"Boolean expression A·A' equals:",                                                opts:['A','1','0','A+A'], ans:2, exp:"A AND NOT-A is always 0 (complement law)" },
+    { diff:'M', topic:'Flip-Flops',      q:"JK flip-flop with J=1, K=1 and Q=0. After clock edge, Q =?",                   opts:['0','1','Undefined','Forbidden'], ans:1, exp:"J=K=1 → Toggle state. Q=0 toggles to Q=1" },
+    { diff:'E', topic:'Flip-Flops',      q:"T flip-flop with T=1 and Q=1. After clock edge, Q =?",                          opts:['0','1','Undefined','Same'], ans:0, exp:"T=1 → Toggle. Q=1 → Q=0" },
+    { diff:'M', topic:'Flip-Flops',      q:"4-bit ripple counter clock input = 16 kHz. Output frequency =?",                opts:['16 kHz','8 kHz','4 kHz','1 kHz'], ans:3, exp:"f_out = f_clk ÷ 2ⁿ = 16000 ÷ 16 = 1 kHz" },
+    { diff:'H', topic:'Flip-Flops',      q:"A D flip-flop stores D=1 at rising edge. Q was 0. After edge Q =?",             opts:['0','1','0 then 1','Toggles'], ans:1, exp:"D flip-flop: Q(t+1) = D, so Q = 1 regardless of previous state" },
+    { diff:'M', topic:'Number Systems',  q:"BCD code of decimal 29 is:",                                                     opts:['00101001','00100111','00111001','11001001'], ans:0, exp:"BCD: each decimal digit → 4 bits. 2=0010, 9=1001 → 00101001" },
+  ],
+  network: [
+    { diff:'E', topic:'Basic Laws',       q:"A 12 V source drives 3 A. Power consumed =?",                                   opts:['4 W','15 W','36 W','9 W'], ans:2, exp:"P = VI = 12 × 3 = 36 W" },
+    { diff:'E', topic:'Basic Laws',       q:"KVL: sum of all voltages around a closed loop equals:",                         opts:['Max voltage','Min voltage','Zero','Supply voltage'], ans:2, exp:"Kirchhoff's Voltage Law: ΣV = 0 in any closed loop" },
+    { diff:'M', topic:'Basic Laws',       q:"RC circuit: τ = RC = 2 ms. After one τ, capacitor charges to ___ % of final:", opts:['50%','63.2%','86.5%','99%'], ans:1, exp:"After 1τ, capacitor = 63.2% of final value (e⁻¹ ≈ 0.368, so 1−0.368 = 63.2%)" },
+    { diff:'E', topic:'Network Theorems', q:"For maximum power transfer, RL must equal:",                                    opts:['2·Rth','Rth/2','Rth','0 Ω'], ans:2, exp:"Max power transfer theorem: RL = Rth" },
+    { diff:'M', topic:'Network Theorems', q:"Vth=10V, Rth=5Ω, RL=5Ω (matched). Max power to RL =?",                       opts:['20 W','10 W','5 W','2.5 W'], ans:2, exp:"Pmax = Vth² ÷ (4·Rth) = 100 ÷ 20 = 5 W" },
+    { diff:'M', topic:'Network Theorems', q:"Norton current IN = Vth/Rth. If Vth=12V, Rth=4Ω, IN =?",                      opts:['48 A','3 A','0.33 A','8 A'], ans:1, exp:"IN = Vth ÷ Rth = 12 ÷ 4 = 3 A" },
+    { diff:'M', topic:'AC & Resonance',   q:"Series RLC: L=25 mH, C=100 μF. Resonant frequency f₀ =?",                    opts:['31.8 Hz','100 Hz','318 Hz','1 kHz'], ans:0, exp:"f₀ = 1/(2π√LC) = 1/(2π×0.05) ≈ 31.8 Hz" },
+    { diff:'E', topic:'AC & Resonance',   q:"At resonance in a series RLC circuit, total impedance Z equals:",              opts:['Maximum','XL','R only','Zero'], ans:2, exp:"At resonance XL = XC; they cancel. Z = R (minimum impedance)" },
+    { diff:'M', topic:'AC & Resonance',   q:"Q = ω₀L/R. If L doubles (R unchanged), Q factor:",                            opts:['Halves','Doubles','Same','Quadruples'], ans:1, exp:"Q ∝ L, so doubling L doubles Q" },
+    { diff:'H', topic:'AC & Resonance',   q:"An RL circuit with L/R = 5 ms. Current rises to 86.5% of final in:",          opts:['5 ms','10 ms','15 ms','20 ms'], ans:1, exp:"At 2τ: current = 1 − e⁻² ≈ 0.865 = 86.5%. τ=5ms, so 2τ=10 ms" },
+    { diff:'M', topic:'Basic Laws',       q:"Superposition theorem is valid only for:",                                       opts:['Non-linear circuits','Linear circuits','DC circuits only','AC circuits only'], ans:1, exp:"Superposition applies only to linear circuits" },
+    { diff:'E', topic:'Network Theorems', q:"Thevenin voltage Vth is the voltage at load terminals when load is:",          opts:['Short-circuited','Open-circuited','Matched','Removed and short-circuited'], ans:1, exp:"Vth = open-circuit voltage at the load terminals" },
+  ],
+  analog: [
+    { diff:'E', topic:'BJT',              q:"BJT with IC=4 mA, IB=40 μA. Current gain β =?",                                opts:['10','40','100','400'], ans:2, exp:"β = IC/IB = 4mA ÷ 40μA = 100" },
+    { diff:'M', topic:'BJT',              q:"α = 0.98. What is β?",                                                          opts:['0.98','49','50','98'], ans:1, exp:"β = α/(1−α) = 0.98/0.02 = 49" },
+    { diff:'E', topic:'BJT',              q:"IC=9.9 mA, IB=0.1 mA. Emitter current IE =?",                                  opts:['9.8 mA','9.9 mA','10 mA','0.1 mA'], ans:2, exp:"KCL at BJT: IE = IC + IB = 9.9 + 0.1 = 10 mA" },
+    { diff:'E', topic:'Op-Amp',           q:"Inverting amplifier: Rf=100 kΩ, Rin=10 kΩ. Voltage gain =?",                   opts:['+10','−10','+11','−11'], ans:1, exp:"Av = −Rf/Rin = −100/10 = −10 (inverts signal)" },
+    { diff:'E', topic:'Op-Amp',           q:"Non-inverting amplifier: Rf=40 kΩ, Rin=10 kΩ. Gain =?",                       opts:['4','5','−4','−5'], ans:1, exp:"Av = 1 + Rf/Rin = 1 + 4 = 5 (always ≥ 1)" },
+    { diff:'E', topic:'Op-Amp',           q:"Op-amp voltage follower (buffer) gain =?",                                      opts:['0','∞','1','−1'], ans:2, exp:"Voltage follower: Av = 1. Used for impedance matching." },
+    { diff:'M', topic:'Op-Amp',           q:"Op-amp GBW = 1 MHz, Av = 10. Bandwidth =?",                                   opts:['10 MHz','100 kHz','10 kHz','1 MHz'], ans:1, exp:"BW = GBW/|Av| = 1MHz/10 = 100 kHz" },
+    { diff:'E', topic:'Diodes',           q:"Bridge rectifier PIV =?",                                                       opts:['2Vm','Vm','Vm/2','Vm/√2'], ans:1, exp:"Bridge: PIV = Vm (only one diode drop). Center-tap FWR needs PIV = 2Vm" },
+    { diff:'M', topic:'Diodes',           q:"Full-wave rectifier ripple factor γ =?",                                        opts:['1.21','0.482','0.318','2.0'], ans:1, exp:"FWR ripple factor = 0.482 (HWR is 1.21 — FWR is much better)" },
+    { diff:'E', topic:'Amplifier Classes',q:"Maximum efficiency of Class B push-pull amplifier =?",                         opts:['25%','50%','78.5%','100%'], ans:2, exp:"Class B: η_max = π/4 ≈ 78.5% (each transistor conducts 180°)" },
+    { diff:'H', topic:'BJT',              q:"CE amplifier: gm=40 mA/V, RC=2 kΩ. Voltage gain |Av| =?",                     opts:['20','40','80','100'], ans:2, exp:"|Av| = gm × RC = 40×10⁻³ × 2×10³ = 80" },
+    { diff:'M', topic:'Op-Amp',           q:"Op-amp slew rate limits:",                                                      opts:['DC gain','Input offset voltage','Large-signal high-frequency response','CMRR'], ans:2, exp:"SR = ΔVo/Δt limits how fast output can change — affects large signals at high frequencies" },
+  ],
+  signals: [
+    { diff:'E', topic:'Laplace',       q:"Laplace transform of e^(−3t)·u(t) =?",                                            opts:['1/s','1/(s+3)','3/s','1/(s−3)'], ans:1, exp:"L{e^(−at)u(t)} = 1/(s+a). Here a=3 → 1/(s+3)" },
+    { diff:'E', topic:'Laplace',       q:"Laplace transform of δ(t) (impulse) =?",                                           opts:['1/s','s','1','0'], ans:2, exp:"L{δ(t)} = 1 (fundamental Laplace pair)" },
+    { diff:'M', topic:'Fourier',       q:"Convolution in time domain ↔ ___ in frequency domain:",                           opts:['Convolution','Addition','Multiplication','Division'], ans:2, exp:"Convolution Property: x(t)*h(t) ↔ X(jω)·H(jω)" },
+    { diff:'E', topic:'Sampling',      q:"Nyquist sampling rate for a 4 kHz signal =?",                                      opts:['2 kHz','4 kHz','8 kHz','16 kHz'], ans:2, exp:"Nyquist rate = 2×fm = 2×4000 = 8 kHz minimum" },
+    { diff:'M', topic:'Z-Transform',   q:"ROC of Z-transform for a causal (right-sided) sequence is:",                      opts:['|z| < r','|z| > r','|z| = r','Entire plane'], ans:1, exp:"Causal sequences: ROC is |z| > r (outside a circle)" },
+    { diff:'E', topic:'Fourier',       q:"Fourier coefficient a₀ represents the ___ of the signal:",                        opts:['1st harmonic amplitude','DC / average value','Peak frequency','Phase'], ans:1, exp:"a₀ = (1/T)∫x(t)dt = average (DC) value of periodic signal" },
+    { diff:'M', topic:'Systems',       q:"An LTI system is BIBO stable if and only if h(t) is:",                             opts:['Periodic','Absolutely integrable ∫|h(t)|dt < ∞','Causal','Even function'], ans:1, exp:"BIBO stability condition: ∫₋∞^∞ |h(t)|dt < ∞" },
+    { diff:'M', topic:'Signals',       q:"Energy signal condition: E < ∞ means average power P =?",                         opts:['Infinite','Finite non-zero','Zero','Equal to E'], ans:2, exp:"Energy signals: finite energy → zero average power (P=0)" },
+    { diff:'H', topic:'Z-Transform',   q:"Z-transform of u[n] (unit step) =?",                                               opts:['z/(z−1)','1/(z−1)','z','1/z'], ans:0, exp:"Z{u[n]} = z/(z−1), ROC: |z| > 1" },
+    { diff:'M', topic:'Fourier',       q:"Parseval's theorem relates ___ in time domain to frequency domain:",               opts:['Phase','Energy','Power density','Amplitude'], ans:1, exp:"Parseval's: ∫|x(t)|²dt = (1/2π)∫|X(jω)|²dω — energy conservation" },
+    { diff:'H', topic:'Laplace',       q:"Initial value theorem: x(0⁺) = lim s→∞ of?",                                     opts:['X(s)/s','s·X(s)','X(s)','s²·X(s)'], ans:1, exp:"IVT: x(0⁺) = lim(s→∞) s·X(s)" },
+  ],
+  control: [
+    { diff:'E', topic:'Stability',       q:"Routh array: system is stable if first column has:",                             opts:['All positive, no sign change','At least one zero','One sign change','All equal'], ans:0, exp:"R-H criterion: all first-column elements positive with NO sign change → stable" },
+    { diff:'M', topic:'Stability',       q:"Phase margin for a stable system should be:",                                    opts:['< 0°','= 0°','> 0°','= −180°'], ans:2, exp:"PM > 0° → stable. PM = 0° → marginally stable. PM < 0° → unstable" },
+    { diff:'M', topic:'Stability',       q:"Gain margin (dB) for a stable system should be:",                               opts:['< 0 dB','= 0 dB','> 0 dB','= −∞ dB'], ans:2, exp:"GM > 0 dB → stable. The more positive, the more robust." },
+    { diff:'E', topic:'Transfer Fn',     q:"Characteristic equation of closed-loop system is:",                              opts:['G(s)=0','H(s)=0','1+G(s)H(s)=0','G(s)H(s)=∞'], ans:2, exp:"Closed-loop poles: 1 + G(s)H(s) = 0 (characteristic equation)" },
+    { diff:'M', topic:'Time Response',   q:"Type 1 system with ramp input: steady-state error is:",                         opts:['Zero','Infinite','Finite constant (1/Kv)','1/Ka'], ans:2, exp:"Type 1: zero error to step, finite 1/Kv error to ramp, infinite to parabolic" },
+    { diff:'E', topic:'Transfer Fn',     q:"Ideal integrator transfer function =?",                                          opts:['s','1/s','s+1','1/(s+1)'], ans:1, exp:"Integrator: Y/X = 1/s (Laplace of integration is division by s)" },
+    { diff:'M', topic:'Stability',       q:"Dominant poles are those with:",                                                 opts:['Largest imaginary part','Smallest real part magnitude (closest to jω-axis)','Largest real part','Largest magnitude'], ans:1, exp:"Dominant poles are closest to jω-axis (smallest |Re|), they govern transient response" },
+    { diff:'H', topic:'Frequency Resp',  q:"Gain margin = 0 dB and phase margin = 0° means system is:",                    opts:['Stable','Unstable','Marginally stable','Critically damped'], ans:2, exp:"GM=0dB and PM=0° → system is on the boundary → marginally stable" },
+    { diff:'M', topic:'Time Response',   q:"Second-order system ζ=0.7, ωn=10 r/s. % overshoot is approximately:",         opts:['4.6%','16%','25%','0%'], ans:0, exp:"For ζ=0.7: %OS ≈ e^(−πζ/√(1−ζ²)) × 100 ≈ 4.6%" },
+    { diff:'M', topic:'Stability',       q:"Root locus starts at (K=0) ___ and ends at (K=∞) ___:",                        opts:['zeros, poles','poles, zeros','poles, poles','zeros, zeros'], ans:1, exp:"Root locus: starts at open-loop POLES (K=0), ends at open-loop ZEROS (K=∞)" },
+    { diff:'H', topic:'Frequency Resp',  q:"Phase crossover frequency ωpc is where phase of G(jω)H(jω) =?",               opts:['0°','−90°','−180°','−270°'], ans:2, exp:"Phase crossover: where ∠G(jω)H(jω) = −180°. Used to find gain margin." },
+  ],
+  communications: [
+    { diff:'E', topic:'AM Modulation',   q:"AM modulation index: Am=5V, Ac=10V. ma =?",                                     opts:['0.2','0.5','2','5'], ans:1, exp:"ma = Am/Ac = 5/10 = 0.5 (50% modulation)" },
+    { diff:'E', topic:'AM Modulation',   q:"Bandwidth of standard AM signal with fm =?",                                    opts:['fm','2fm','3fm','4fm'], ans:1, exp:"BW_AM = 2fm (upper and lower sidebands each of width fm)" },
+    { diff:'M', topic:'AM Modulation',   q:"AM efficiency at 100% modulation (ma=1) =?",                                   opts:['25%','33.3%','50%','100%'], ans:1, exp:"η = ma²/(2+ma²) = 1/3 = 33.3% (carrier wastes 2/3 of power!)" },
+    { diff:'M', topic:'Shannon',         q:"Shannon capacity: B=4 kHz, S/N=15. Capacity C =?",                              opts:['4 kbps','16 kbps','32 kbps','64 kbps'], ans:1, exp:"C = B·log₂(1+S/N) = 4000×log₂(16) = 4000×4 = 16 kbps" },
+    { diff:'M', topic:'FM Modulation',   q:"Carson's rule BW: Δf=75 kHz, fm=15 kHz. BW =?",                               opts:['90 kHz','150 kHz','180 kHz','200 kHz'], ans:2, exp:"BW ≈ 2(Δf+fm) = 2×(75+15) = 180 kHz" },
+    { diff:'E', topic:'Digital Comms',   q:"QPSK uses 4 phases → bits per symbol =?",                                       opts:['1','2','3','4'], ans:1, exp:"M=4 symbols → log₂(4) = 2 bits/symbol" },
+    { diff:'M', topic:'AM Modulation',   q:"DSB-SC saves power compared to AM by eliminating the:",                        opts:['Message signal','Carrier','Lower sideband','Upper sideband'], ans:1, exp:"DSB-SC suppresses the carrier — saves ~67% power since carrier carries no information" },
+    { diff:'M', topic:'Digital Comms',   q:"Nyquist bit rate: B=3 kHz, M=4 levels. Max rate =?",                           opts:['6 kbps','12 kbps','24 kbps','3 kbps'], ans:1, exp:"Nyquist rate = 2B·log₂M = 2×3000×2 = 12 kbps" },
+    { diff:'H', topic:'FM Modulation',   q:"FM modulation index β = Δf/fm. If Δf=50kHz, fm=5kHz, β=?",                   opts:['10','5','0.1','50'], ans:0, exp:"β = Δf/fm = 50/5 = 10 (wideband FM since β >> 1)" },
+    { diff:'E', topic:'PCM',             q:"PCM with 8-bit quantization gives ___ levels:",                                  opts:['8','16','128','256'], ans:3, exp:"2⁸ = 256 quantization levels (8-bit PCM is standard for voice)" },
+    { diff:'M', topic:'Shannon',         q:"Shannon limit: doubling bandwidth S/N unchanged, capacity:",                    opts:['Doubles','More than doubles','Less than doubles','Stays same'], ans:2, exp:"C = B·log₂(1+S/N). Doubling B doubles C only if S/N is maintained — in practice it's less due to noise." },
+    { diff:'M', topic:'Digital Comms',   q:"16-QAM encodes ___ bits per symbol:",                                           opts:['2','4','8','16'], ans:1, exp:"16-QAM has 16 symbols → log₂(16) = 4 bits/symbol" },
+  ],
+  aptitude: [
+    { diff:'E', topic:'Percentage',      q:"What is 15% of 240?",                                                            opts:['24','36','48','30'], ans:1, exp:"15% of 240 = (15/100)×240 = 36" },
+    { diff:'M', topic:'Percentage',      q:"A number increased by 20% gives 600. Original number =?",                       opts:['480','500','450','520'], ans:1, exp:"x × 1.2 = 600 → x = 500" },
+    { diff:'M', topic:'Ratio',           q:"Ratio 3:4. If smaller = 21, larger =?",                                         opts:['24','28','32','27'], ans:1, exp:"3k=21 → k=7 → 4k = 28" },
+    { diff:'E', topic:'Time & Work',     q:"A does work in 10 days, B in 15 days. Together they finish in:",                opts:['6 days','5 days','8 days','12 days'], ans:0, exp:"Combined rate = 1/10+1/15 = 5/30 = 1/6. Time = 6 days" },
+    { diff:'M', topic:'Speed',           q:"Train 120m long passes a pole at 72 km/h. Time to pass =?",                     opts:['4 s','5 s','6 s','8 s'], ans:2, exp:"72 km/h = 20 m/s. Time = 120/20 = 6 seconds" },
+    { diff:'M', topic:'Profit & Loss',   q:"CP=₹200, SP=₹250. Profit % =?",                                                opts:['20%','25%','30%','15%'], ans:1, exp:"Profit = 50. Profit% = (50/200)×100 = 25%" },
+    { diff:'H', topic:'Series',          q:"Find next: 2, 6, 12, 20, 30, ?",                                                opts:['36','40','42','44'], ans:2, exp:"Differences: 4,6,8,10,12 → Next = 30+12 = 42" },
+    { diff:'M', topic:'Reasoning',       q:"If A > B, B > C, C > D, then which is smallest?",                               opts:['A','B','C','D'], ans:3, exp:"Chain: A > B > C > D → D is the smallest" },
+  ],
+};
+
 // ── PLAYLISTS ─────────────────────────────────────────────────────────────────
 const playlists = [
   // ── Neso Academy — verified embeddable IDs ──
@@ -669,6 +766,7 @@ const sectionTitles = {
   dashboard:'Dashboard', subjects:'Subjects', mocktest:'Mock Test',
   playlists:'Video Library', video:'Now Watching', search:'Search Topics',
   mistakebook:'Mistake Book', formulas:'Formula Sheet', examinfo:'Exam Info',
+  symbols:'Circuit & Logic Symbols',
 };
 function navigateTo(id) {
   // Stop canvas animations when leaving formula section
@@ -679,6 +777,7 @@ function navigateTo(id) {
   document.querySelector(`[data-section="${id}"]`)?.classList.add('active');
   document.getElementById('topbar-title').textContent = sectionTitles[id] || id;
   if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
+  if (id === 'symbols' && typeof initSymbols === 'function') initSymbols();
 }
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
 
@@ -1423,8 +1522,9 @@ function renderPractice(subjectId) {
   <div class="practice-wrap">
     <div class="practice-top">
       <div class="practice-mode-toggle">
-        <button class="pmt-btn active" id="pmt-flash" onclick="setPracticeMode('flash')">🃏 Flashcards</button>
-        <button class="pmt-btn" id="pmt-mcq" onclick="setPracticeMode('mcq')">🧩 Quiz (MCQ)</button>
+        <button class="pmt-btn active" id="pmt-flash" onclick="setPracticeMode('flash')"><i class="fa-solid fa-clone"></i> Flashcards</button>
+        <button class="pmt-btn" id="pmt-mcq" onclick="setPracticeMode('mcq')"><i class="fa-solid fa-list-check"></i> Formula Quiz</button>
+        <button class="pmt-btn" id="pmt-app" onclick="setPracticeMode('application')"><i class="fa-solid fa-calculator"></i> Apply &amp; Solve</button>
       </div>
       <div class="practice-progress-bar">
         <div class="practice-progress-fill" id="pr-fill" style="width:0%"></div>
@@ -1443,8 +1543,13 @@ function setPracticeMode(mode) {
   _practiceState.got     = 0;
   _practiceState.missed  = 0;
   _practiceState.revealed= false;
+  // Reset application MCQ state so it starts fresh
+  if (mode === 'application') {
+    _appMCQState = { questions:[], idx:0, correct:0, wrong:0 };
+  }
   document.getElementById('pmt-flash')?.classList.toggle('active', mode==='flash');
   document.getElementById('pmt-mcq')?.classList.toggle('active',  mode==='mcq');
+  document.getElementById('pmt-app')?.classList.toggle('active',  mode==='application');
   _renderPracticeCard();
 }
 
@@ -1452,6 +1557,12 @@ function _renderPracticeCard() {
   const {cards,idx,mode,revealed} = _practiceState;
   const el = document.getElementById('practice-main');
   if (!el) return;
+
+  // Application mode has its own state — must check BEFORE the cards.length guard
+  if (mode === 'application') {
+    _renderApplicationMCQ(_fSubject);
+    return;
+  }
 
   if (idx >= cards.length) { _renderPracticeResults(); return; }
 
@@ -1464,7 +1575,6 @@ function _renderPracticeCard() {
 
   const subj = formulaData.find(f=>f.id===_fSubject);
   const subjColor = subj ? subj.color : '#3b82f6';
-
   if (mode === 'flash') {
     el.innerHTML = `
     <div class="fc-flip-hint">
@@ -1480,7 +1590,7 @@ function _renderPracticeCard() {
           </div>
           <div class="fc-card-name" style="font-size:22px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:12px">${card.name}</div>
           <div class="fc-card-hint" style="font-size:13px;color:var(--text-muted);line-height:1.6;padding:10px 16px;background:var(--bg);border-radius:var(--r);border:1px solid var(--border);width:100%;box-sizing:border-box">
-            ${card.tip ? '💡 ' + card.tip : '🧠 Tap to reveal the formula'}
+            ${card.tip ? card.tip : 'Tap to reveal the formula'}
           </div>
         </div>
         <div class="flashcard-face flashcard-back" style="background:linear-gradient(135deg,${subjColor},#6366f1)">
@@ -1569,7 +1679,7 @@ function _renderPracticeResults() {
 
   const subj = formulaData.find(f=>f.id===_fSubject);
   const subjCol = subj ? subj.color : '#3b82f6';
-  const msg  = pct>=80?'Formulas locked in! 🎉':pct>=50?'Good progress! Review the missed ones 📖':'Keep practicing — repetition builds memory 💪';
+  const msg  = pct>=80?'Formulas locked in!':pct>=50?'Good progress — review the missed ones.':'Keep practicing — repetition builds memory.';
   const col  = pct>=80?'#10b981':pct>=50?'#f59e0b':'#ef4444';
   const bg   = pct>=80?'var(--success-muted)':pct>=50?'var(--warning-muted)':'var(--danger-muted)';
 
@@ -1608,8 +1718,241 @@ function _renderPracticeResults() {
     </div>
     <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
       <button class="btn btn-primary" onclick="renderPractice('${_fSubject}')">🔄 Practice Again</button>
-      <button class="btn btn-ghost"   onclick="switchFormulaMode('visual')">🎬 Watch Visual Lab</button>
-      <button class="btn btn-ghost"   onclick="switchFormulaMode('formulas')">📋 Review Formulas</button>
+      <button class="btn btn-ghost"   onclick="switchFormulaMode('visual')"><i class="fa-solid fa-play-circle"></i> Watch Visual Lab</button>
+      <button class="btn btn-ghost"   onclick="switchFormulaMode('formulas')"><i class="fa-solid fa-list-ul"></i> Review Formulas</button>
+    </div>
+  </div>`;
+}
+
+// ── APPLICATION MCQ (CIL exam-style apply & solve) ────────────────────────────
+
+let _appMCQState = { questions:[], idx:0, correct:0, wrong:0, answered:false };
+
+const DIFF_META = {
+  E: { label:'Easy',   color:'#10b981', bg:'#ecfdf5' },
+  M: { label:'Medium', color:'#f59e0b', bg:'#fffbeb' },
+  H: { label:'Hard',   color:'#ef4444', bg:'#fef2f2' },
+};
+
+function _renderApplicationMCQ(subjectId) {
+  const el = document.getElementById('practice-main');
+  if (!el) return;
+
+  const pool = (formulaMCQData[subjectId] || []);
+  if (!pool.length) {
+    el.innerHTML = `<div class="viz-empty" style="padding:40px;text-align:center">
+      <div style="font-size:40px;margin-bottom:12px">🔧</div>
+      <p style="font-size:15px;font-weight:700">Application MCQs coming soon for this subject!</p>
+      <p style="font-size:13px;color:var(--text-muted);margin-top:6px">Try <strong>Digital, Network, Analog, Signals, Control, or Communications</strong></p>
+    </div>`;
+    return;
+  }
+
+  _appMCQState = { questions: shuffle([...pool]), idx:0, correct:0, wrong:0, answered:false };
+  _renderAppMCQCard();
+}
+
+function _renderAppMCQCard() {
+  const mainEl = document.getElementById('practice-main');
+  if (!mainEl) return;
+  const { questions, idx } = _appMCQState;
+
+  if (idx >= questions.length) { _renderAppMCQResults(); return; }
+
+  const q     = questions[idx];
+  const subj  = formulaData.find(f=>f.id===_fSubject);
+  const col   = subj ? subj.color : '#3b82f6';
+  const pct   = Math.round((idx / questions.length) * 100);
+  const diff  = DIFF_META[q.diff] || DIFF_META.M;
+  const keys  = ['A','B','C','D'];
+  const remaining = questions.length - idx;
+
+  // Update top bar
+  const fill = document.getElementById('pr-fill');
+  if (fill) fill.style.width = pct + '%';
+  const ctr = document.getElementById('pr-counter');
+  if (ctr) ctr.textContent = (idx+1) + ' / ' + questions.length;
+
+  mainEl.innerHTML = `
+  <div class="amcq-wrapper">
+
+    <!-- Exam-style header bar -->
+    <div class="amcq-header" style="border-left:4px solid ${col}">
+      <div class="amcq-header-left">
+        <span class="amcq-subj-tag" style="background:${col}18;color:${col};border:1px solid ${col}40">${q.topic}</span>
+        <span class="amcq-diff-tag" style="background:${diff.bg};color:${diff.color}">${diff.label}</span>
+      </div>
+      <div class="amcq-header-right">
+        <span class="amcq-score-live">
+          <span style="color:#10b981;font-weight:800">${_appMCQState.correct}</span>
+          <span style="color:var(--text-muted)"> / ${idx}</span>
+          &nbsp;correct so far
+        </span>
+        <span class="amcq-q-num" style="color:${col}">Q ${idx+1}</span>
+      </div>
+    </div>
+
+    <!-- Question -->
+    <div class="amcq-question-card">
+      <div class="amcq-q-label">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        CIL Exam Style Question
+      </div>
+      <div class="amcq-q-text">${q.q}</div>
+    </div>
+
+    <!-- Options -->
+    <div class="amcq-options" id="amcq-opts">
+      ${q.opts.map((opt,i)=>`
+      <button class="amcq-opt" id="amcq-${i}" onclick="selectAppMCQ(${i})" style="--opt-color:${col}">
+        <span class="amcq-opt-letter">${keys[i]}</span>
+        <span class="amcq-opt-text">${opt}</span>
+      </button>`).join('')}
+    </div>
+
+    <!-- Explanation (hidden until answered) -->
+    <div class="amcq-explanation" id="amcq-exp" style="display:none"></div>
+
+    <!-- Navigation -->
+    <div class="amcq-nav" id="amcq-nav" style="display:none">
+      <button class="amcq-next-btn" style="background:${col}" onclick="_appMCQState.idx++;_renderAppMCQCard()">
+        ${idx+1 < questions.length ? 'Next Question →' : 'See Results 🏁'}
+      </button>
+    </div>
+  </div>`;
+}
+
+function selectAppMCQ(chosen) {
+  if (_appMCQState.answered) return;
+  _appMCQState.answered = true;
+
+  const { questions, idx } = _appMCQState;
+  const q      = questions[idx];
+  const isRight= chosen === q.ans;
+  const keys   = ['A','B','C','D'];
+  const subj   = formulaData.find(f=>f.id===_fSubject);
+  const col    = subj ? subj.color : '#3b82f6';
+
+  if (isRight) _appMCQState.correct++; else _appMCQState.wrong++;
+
+  // Style the buttons
+  document.querySelectorAll('.amcq-opt').forEach(b => b.disabled = true);
+  const chosenBtn  = document.getElementById('amcq-'+chosen);
+  const correctBtn = document.getElementById('amcq-'+q.ans);
+  if (correctBtn) correctBtn.classList.add('amcq-correct');
+  if (chosenBtn && !isRight) chosenBtn.classList.add('amcq-wrong');
+
+  // Show explanation
+  const expEl = document.getElementById('amcq-exp');
+  if (expEl) {
+    expEl.style.display = 'block';
+    expEl.innerHTML = `
+      <div class="amcq-exp-row">
+        <span class="amcq-result-icon">${isRight ? '✓' : '✗'}</span>
+        <div>
+          <div class="amcq-result-label" style="color:${isRight?'#10b981':'#ef4444'}">
+            ${isRight ? 'Correct!' : `Wrong — Answer: <strong>${keys[q.ans]}. ${q.opts[q.ans]}</strong>`}
+          </div>
+          <div class="amcq-exp-text">💡 ${q.exp}</div>
+        </div>
+      </div>`;
+  }
+
+  // Show next button
+  const navEl = document.getElementById('amcq-nav');
+  if (navEl) navEl.style.display = 'flex';
+
+  _appMCQState.answered = false; // reset for next call
+}
+
+function _renderAppMCQResults() {
+  const { correct, wrong, questions } = _appMCQState;
+  const total  = questions.length;
+  const pct    = Math.round((correct/total)*100);
+  const mainEl = document.getElementById('practice-main');
+  if (!mainEl) return;
+
+  const fill = document.getElementById('pr-fill');
+  if (fill) fill.style.width = '100%';
+  const ctr = document.getElementById('pr-counter');
+  if (ctr) ctr.textContent = total + ' / ' + total;
+
+  const subj  = formulaData.find(f=>f.id===_fSubject);
+  const col   = subj ? subj.color : '#3b82f6';
+  const rcol  = pct>=80?'#10b981':pct>=60?'#f59e0b':'#ef4444';
+  const circ  = 2*Math.PI*52;
+  const off   = circ*(1-pct/100);
+
+  // Grade
+  const grade  = pct>=90?'Outstanding!':pct>=80?'Excellent!':pct>=65?'Good Job!':pct>=50?'Keep Revising':'Study More';
+  const remark = pct>=65?'You are exam ready for this topic!':`Focus on weak areas and try again.`;
+  // CIL cut-off reference
+  const cilPass = pct>=45 ? `<span style="color:#10b981">✓ Above CIL cut-off (~45%)</span>` : `<span style="color:#ef4444">✗ Below CIL cut-off (~45%) — revise more</span>`;
+
+  mainEl.innerHTML = `
+  <div class="amcq-results">
+
+    <!-- Score ring -->
+    <div class="amcq-result-ring-wrap">
+      <svg width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg)">
+        <circle cx="65" cy="65" r="52" fill="none" stroke="var(--border)" stroke-width="10"/>
+        <circle cx="65" cy="65" r="52" fill="none" stroke="${rcol}" stroke-width="10"
+          stroke-linecap="round"
+          stroke-dasharray="${circ.toFixed(1)}"
+          stroke-dashoffset="${off.toFixed(1)}"
+          style="transition:stroke-dashoffset 1.2s ease"/>
+      </svg>
+      <div class="amcq-ring-inner">
+        <div class="amcq-ring-pct" style="color:${rcol}">${pct}%</div>
+        <div class="amcq-ring-sub">${correct}/${total}</div>
+      </div>
+    </div>
+
+    <div class="amcq-result-grade">${grade}</div>
+    <div class="amcq-result-remark">${remark}</div>
+    <div class="amcq-cil-cutoff">${cilPass}</div>
+
+    <!-- Stat cards -->
+    <div class="amcq-stat-row">
+      <div class="amcq-stat-card" style="border-color:#10b981">
+        <div class="amcq-stat-val" style="color:#10b981">${correct}</div>
+        <div class="amcq-stat-lbl">Correct</div>
+      </div>
+      <div class="amcq-stat-card" style="border-color:#ef4444">
+        <div class="amcq-stat-val" style="color:#ef4444">${wrong}</div>
+        <div class="amcq-stat-lbl">Wrong</div>
+      </div>
+      <div class="amcq-stat-card" style="border-color:${col}">
+        <div class="amcq-stat-val" style="color:${col}">${total}</div>
+        <div class="amcq-stat-lbl">Total Qs</div>
+      </div>
+      <div class="amcq-stat-card" style="border-color:#8b5cf6">
+        <div class="amcq-stat-val" style="color:#8b5cf6">${Math.round((wrong/total)*(-0.25)*100)/100 < 0 ? (Math.round(correct*1*100-wrong*0.25*100)/100) : correct}</div>
+        <div class="amcq-stat-lbl">CIL Score<br><span style="font-size:9px">(−0.25 mark)</span></div>
+      </div>
+    </div>
+
+    <!-- Breakdown by difficulty -->
+    <div class="amcq-breakdown">
+      ${['E','M','H'].map(d=>{
+        const dQs = questions.filter(q=>q.diff===d);
+        const dMeta = DIFF_META[d];
+        if (!dQs.length) return '';
+        return `<div class="amcq-breakdown-row">
+          <span class="amcq-diff-tag" style="background:${dMeta.bg};color:${dMeta.color};min-width:60px">${dMeta.label}</span>
+          <div class="amcq-bkdown-bar-wrap">
+            <div class="amcq-bkdown-bar" style="width:${Math.round(dQs.length/total*100)}%;background:${dMeta.color}20;border:1px solid ${dMeta.color}40">
+              <span style="color:${dMeta.color};font-size:11px;font-weight:700;padding:0 6px">${dQs.length} questions</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+      <button class="btn btn-primary" onclick="setPracticeMode('application')">Try Again</button>
+      <button class="btn btn-ghost"   onclick="setPracticeMode('mcq')"><i class="fa-solid fa-list-check"></i> Formula Quiz</button>
+      <button class="btn btn-ghost"   onclick="switchFormulaMode('formulas')"><i class="fa-solid fa-list-ul"></i> Review Formulas</button>
     </div>
   </div>`;
 }
@@ -1785,4 +2128,445 @@ function showToast(msg,type='ok'){
   const icon=type==='ok'?'<svg viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
   t.innerHTML=icon+msg;document.body.appendChild(t);
   setTimeout(()=>t.style.opacity='0',2700);setTimeout(()=>t.remove(),3000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FULL FOCUS MODE  — floating HUD, website stays fully usable
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Music type → ambient audio engine type mapping
+const FOCUS_MUSIC_TRACKS = {
+  rain:    { type:'rain',    name:'Rain Sounds'    },
+  focus:   { type:'focus',   name:'Focus Tones'   },
+  ambient: { type:'ambient', name:'Ambient Chords' },
+};
+
+const FOCUS_QUOTES = [
+  '"Focus is the art of knowing what to ignore."',
+  '"Every expert was once a beginner. Keep going."',
+  '"Success is the sum of small efforts, day in and day out."',
+  '"CIL MT E&T — you\'re building your future right now!"',
+  '"One more topic, one step closer to your dream."',
+  '"Hard work beats talent when talent doesn\'t work hard."',
+  '"Discipline is choosing between what you want now vs most."',
+  '"Coal India is waiting — don\'t let this chance slip."',
+  '"Don\'t stop when you\'re tired. Stop when you\'re done."',
+  '"Exam day is coming. The grind decides the outcome."',
+];
+
+const focusMode = {
+  active:       false,
+  duration:     120,
+  remaining:    0,
+  subject:      'Digital Electronics',
+  music:        'rain',
+  distractions: 0,
+  nextBreakIn:  45 * 60,
+  timer:        null,
+  quoteTimer:   null,
+  quoteIdx:     0,
+  musicPlayer:  null,
+  musicPlaying: false,
+};
+
+// ── SETUP ─────────────────────────────────────────────────────────────────────
+
+function openFocusSetup() {
+  document.getElementById('focus-setup-overlay').style.display = 'flex';
+  selectFocusDuration(focusMode.duration);
+}
+function closeFocusSetup() {
+  document.getElementById('focus-setup-overlay').style.display = 'none';
+}
+function selectFocusDuration(mins) {
+  focusMode.duration = mins;
+  document.querySelectorAll('.focus-dur-btn').forEach(b =>
+    b.classList.toggle('selected', parseInt(b.dataset.mins) === mins));
+}
+function selectFocusMusic(type) {
+  focusMode.music = type;
+  document.querySelectorAll('.focus-music-setup-btn').forEach(b =>
+    b.classList.toggle('selected', b.dataset.music === type));
+}
+
+// ── START ─────────────────────────────────────────────────────────────────────
+
+function startFocusMode() {
+  const subj = document.getElementById('focus-subject-select');
+  focusMode.subject     = subj ? subj.value : 'Digital Electronics';
+  focusMode.remaining   = focusMode.duration * 60;
+  focusMode.distractions= 0;
+  focusMode.nextBreakIn = 45 * 60;
+  focusMode.active      = true;
+  focusMode.musicPlaying= false;
+  focusMode.quoteIdx    = 0;
+
+  closeFocusSetup();
+
+  // Show the floating HUD
+  const hud = document.getElementById('focus-hud');
+  hud.style.display = 'flex';
+
+  // Subject label
+  document.getElementById('fhud-subject').textContent = focusMode.subject;
+
+  // Pad body so HUD doesn't cover bottom content
+  document.body.classList.add('focus-active');
+
+  // Start timer
+  _focusUpdateHUD();
+  focusMode.timer = setInterval(_focusTick, 1000);
+
+  // Quote rotation (just in the toast area via showToast)
+  focusMode.quoteTimer = setInterval(_focusQuoteToast, 30000);
+
+  // Tab visibility detection — when user leaves browser tab
+  document.addEventListener('visibilitychange', _focusOnVisibilityChange);
+  window.addEventListener('beforeunload', _focusBeforeUnload);
+
+  showToast('Focus Mode ON. The website is fully usable. Timer is in the bottom bar.', 'ok');
+}
+
+// ── TICK ─────────────────────────────────────────────────────────────────────
+
+function _focusTick() {
+  if (!focusMode.active) return;
+  focusMode.remaining--;
+  focusMode.nextBreakIn--;
+  _focusUpdateHUD();
+  if (focusMode.nextBreakIn <= 0) {
+    focusMode.nextBreakIn = 45 * 60;
+    _focusShowBreakToast();
+  }
+  if (focusMode.remaining <= 0) _focusComplete();
+}
+
+function _focusUpdateHUD() {
+  const rem   = Math.max(0, focusMode.remaining);
+  const total = focusMode.duration * 60;
+  const h = Math.floor(rem / 3600);
+  const m = Math.floor((rem % 3600) / 60);
+  const s = rem % 60;
+  const timeStr = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+
+  const timerEl = document.getElementById('fhud-timer');
+  if (timerEl) {
+    timerEl.textContent = timeStr;
+    timerEl.className = 'fhud-timer' + (rem < 600 ? ' danger' : rem < 1800 ? ' warn' : '');
+  }
+
+  // Break countdown
+  const bi = Math.max(0, focusMode.nextBreakIn);
+  const bm = Math.floor(bi / 60), bs = bi % 60;
+  const bc = document.getElementById('fhud-break');
+  if (bc) bc.textContent = bm + ':' + bs.toString().padStart(2,'0');
+
+  // Distraction count
+  const dc = document.getElementById('fhud-distractions');
+  if (dc) dc.textContent = focusMode.distractions;
+  const dp = document.getElementById('fhud-dist-pill');
+  if (dp) dp.classList.toggle('active', focusMode.distractions > 0);
+}
+
+// ── TAB DETECTION ─────────────────────────────────────────────────────────────
+
+function _focusOnVisibilityChange() {
+  if (!focusMode.active || !document.hidden) return;
+  focusMode.distractions++;
+  _focusUpdateHUD();
+  _focusBeep();
+  // Show a brief warning toast when they come back
+  document.addEventListener('visibilitychange', _focusOnReturn, { once: true });
+}
+
+function _focusOnReturn() {
+  if (!focusMode.active || document.hidden) return;
+  showToast(`Tab switch detected. Distraction #${focusMode.distractions} logged. Stay focused!`, 'err');
+}
+
+function _focusBeforeUnload(e) {
+  if (!focusMode.active) return;
+  e.preventDefault(); e.returnValue = '';
+}
+
+// ── BREAK TOAST ───────────────────────────────────────────────────────────────
+
+function _focusShowBreakToast() {
+  const el = document.getElementById('focus-break-toast');
+  if (el) {
+    el.style.display = 'flex';
+    // Auto-dismiss after 15 seconds
+    setTimeout(() => { if (el) el.style.display = 'none'; }, 15000);
+  }
+}
+function dismissBreakReminder() {
+  const el = document.getElementById('focus-break-toast');
+  if (el) el.style.display = 'none';
+}
+
+// ── EXIT CONFIRM ──────────────────────────────────────────────────────────────
+
+function confirmExitFocus() {
+  const elapsed = focusMode.duration * 60 - focusMode.remaining;
+  const mins    = Math.floor(elapsed / 60);
+  const el = document.getElementById('focus-elapsed-display');
+  if (el) el.textContent = mins + ' min' + (mins !== 1 ? 's' : '');
+  const m = document.getElementById('focus-confirm-modal');
+  if (m) m.style.display = 'flex';
+}
+function cancelExitFocus() {
+  const m = document.getElementById('focus-confirm-modal');
+  if (m) m.style.display = 'none';
+}
+function exitFocusMode() {
+  const elapsed = focusMode.duration * 60 - focusMode.remaining;
+  const mins    = Math.floor(elapsed / 60);
+  _focusStop();
+  document.getElementById('focus-confirm-modal').style.display = 'none';
+  showToast(`Session ended. Studied ${mins} min · ${focusMode.distractions} distraction(s).`, 'ok');
+}
+
+// ── COMPLETE ─────────────────────────────────────────────────────────────────
+
+function _focusComplete() {
+  _focusStop();
+  markTodayStudied();
+  const d = focusMode.distractions;
+  const grade = d === 0 ? 'Perfect Focus!' : d <= 2 ? 'Great Focus!' : d <= 5 ? 'Good Job!' : 'Keep Improving!';
+  const durLabel = focusMode.duration % 60 === 0
+    ? (focusMode.duration/60) + (focusMode.duration/60 === 1 ? ' Hour' : ' Hours')
+    : focusMode.duration + ' Min';
+  const el = document.getElementById('focus-complete-modal');
+  const title = document.getElementById('focus-complete-title');
+  const body  = document.getElementById('focus-complete-body');
+  if (title) title.textContent = `${durLabel} Session Complete`;
+  if (body)  body.innerHTML = `${grade}<br><br>
+    <strong style="color:#10b981">${focusMode.duration} min studied</strong> &nbsp;·&nbsp;
+    <strong style="color:${d===0?'#10b981':d<=3?'#f59e0b':'#ef4444'}">${d} distractions</strong> &nbsp;·&nbsp;
+    <strong style="color:#8b5cf6">Day checked in ✓</strong>`;
+  if (el) el.style.display = 'flex';
+}
+
+function _focusStop() {
+  focusMode.active = false;
+  clearInterval(focusMode.timer);
+  clearInterval(focusMode.quoteTimer);
+  focusMode.timer = focusMode.quoteTimer = null;
+  document.removeEventListener('visibilitychange', _focusOnVisibilityChange);
+  window.removeEventListener('beforeunload', _focusBeforeUnload);
+  stopFocusMusic();
+  document.getElementById('focus-hud').style.display = 'none';
+  document.getElementById('focus-break-toast').style.display = 'none';
+  document.getElementById('fhud-music-popup').style.display = 'none';
+  document.body.classList.remove('focus-active');
+}
+
+function _focusQuoteToast() {
+  if (!focusMode.active) return;
+  const q = FOCUS_QUOTES[focusMode.quoteIdx % FOCUS_QUOTES.length];
+  focusMode.quoteIdx++;
+  showToast(q, 'ok');
+}
+
+// ── MUSIC (fully optional, user-triggered) ────────────────────────────────────
+
+function toggleFocusMusicPanel() {
+  const popup = document.getElementById('fhud-music-popup');
+  const btn   = document.getElementById('fhud-music-btn');
+  const isOpen = popup.style.display !== 'none';
+  popup.style.display = isOpen ? 'none' : 'block';
+  btn.classList.toggle('active', !isOpen);
+}
+
+function selectFocusMusicHUD(type) {
+  focusMode.music = type;
+  document.querySelectorAll('.fhud-mopt').forEach(b =>
+    b.classList.toggle('selected', b.dataset.music === type));
+}
+
+function playFocusMusic() {
+  stopFocusMusic();
+  startAmbientMusic(focusMode.music || 'rain');
+  focusMode.musicPlaying = true;
+  const pb = document.getElementById('fhud-play-btn');
+  const sb = document.getElementById('fhud-stop-btn');
+  if (pb) pb.style.display = 'none';
+  if (sb) sb.style.display = '';
+}
+
+function stopFocusMusic() {
+  stopAmbientMusic();
+  focusMode.musicPlaying = false;
+  const pb = document.getElementById('fhud-play-btn');
+  const sb = document.getElementById('fhud-stop-btn');
+  if (pb) pb.style.display = '';
+  if (sb) sb.style.display = 'none';
+}
+
+function setFocusVolume(val) { setAmbientVolume(val); }
+
+function _focusBeep() {
+  try {
+    const ctx  = new (window.AudioContext || window.webkitAudioContext)();
+    const osc  = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = 880; osc.type = 'sine';
+    gain.gain.setValueAtTime(0.25, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.4);
+  } catch(e) {}
+}
+
+// ── WEB AUDIO AMBIENT ENGINE ──────────────────────────────────────────────
+const _amb = { ctx: null, master: null, nodes: [], playing: false, type: null };
+
+function _ambInit() {
+  if (!_amb.ctx) {
+    _amb.ctx    = new (window.AudioContext || window.webkitAudioContext)();
+    _amb.master = _amb.ctx.createGain();
+    _amb.master.gain.value = 0.6;
+    _amb.master.connect(_amb.ctx.destination);
+  }
+  if (_amb.ctx.state === 'suspended') _amb.ctx.resume();
+}
+
+function startAmbientMusic(type) {
+  stopAmbientMusic();
+  _ambInit();
+  _amb.type = type;
+  const ctx = _amb.ctx, out = _amb.master, nodes = [];
+
+  if (type === 'rain') {
+    // Pink noise → sounds like steady rain
+    const len = ctx.sampleRate * 4;
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+      for (let i = 0; i < len; i++) {
+        const w = Math.random() * 2 - 1;
+        b0=0.99886*b0+w*0.0555179; b1=0.99332*b1+w*0.0750759;
+        b2=0.96900*b2+w*0.1538520; b3=0.86650*b3+w*0.3104856;
+        b4=0.55000*b4+w*0.5329522; b5=-0.7616*b5-w*0.0168980;
+        d[i] = (b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11; b6=w*0.115926;
+      }
+    }
+    const src = ctx.createBufferSource();
+    src.buffer = buf; src.loop = true;
+    const lpf = ctx.createBiquadFilter();
+    lpf.type = 'lowpass'; lpf.frequency.value = 800; lpf.Q.value = 0.4;
+    src.connect(lpf); lpf.connect(out); src.start();
+    nodes.push(src, lpf);
+
+  } else if (type === 'focus') {
+    // 40 Hz gamma binaural beat (left 200 Hz, right 240 Hz) + warm bass drone
+    const merger = ctx.createChannelMerger(2);
+    merger.connect(out);
+    [[200, 0], [240, 1]].forEach(([freq, ch]) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine'; osc.frequency.value = freq;
+      const g = ctx.createGain(); g.gain.value = 0.18;
+      const sp = ctx.createChannelSplitter(2);
+      osc.connect(g); g.connect(sp); sp.connect(merger, 0, ch);
+      osc.start(); nodes.push(osc, g, sp);
+    });
+    const drone = ctx.createOscillator();
+    drone.type = 'sine'; drone.frequency.value = 110;
+    const dg = ctx.createGain(); dg.gain.value = 0.07;
+    drone.connect(dg); dg.connect(out); drone.start();
+    nodes.push(drone, dg, merger);
+
+  } else if (type === 'ambient') {
+    // C major chord C4-E4-G4-C5 with slow tremolo per tone
+    [261.63, 329.63, 392.00, 523.25].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine'; osc.frequency.value = freq;
+      const env = ctx.createGain(); env.gain.value = 0;
+      const lfo = ctx.createOscillator();
+      lfo.type = 'sine'; lfo.frequency.value = 0.22 + i * 0.06;
+      const lg = ctx.createGain(); lg.gain.value = 0.022;
+      lfo.connect(lg); lg.connect(env.gain);
+      const t0 = ctx.currentTime + i * 0.7;
+      env.gain.setValueAtTime(0, t0);
+      env.gain.linearRampToValueAtTime(0.09, t0 + 1.8);
+      osc.connect(env); env.connect(out);
+      osc.start(Math.max(ctx.currentTime, t0 - 0.01));
+      lfo.start(Math.max(ctx.currentTime, t0 - 0.01));
+      nodes.push(osc, env, lfo, lg);
+    });
+  }
+
+  _amb.nodes  = nodes;
+  _amb.playing = true;
+}
+
+function stopAmbientMusic() {
+  _amb.nodes.forEach(n => {
+    try { if ('stop' in n) n.stop(); n.disconnect(); } catch(e) {}
+  });
+  _amb.nodes  = [];
+  _amb.playing = false;
+}
+
+function setAmbientVolume(val) {
+  const pct = parseInt(val);
+  if (_amb.master) _amb.master.gain.value = pct / 100;
+  const l1 = document.getElementById('sm-vol-pct');
+  const l2 = document.getElementById('focus-vol-pct');
+  if (l1) l1.textContent = pct + '%';
+  if (l2) l2.textContent = pct + '%';
+}
+
+// ── SIDEBAR MUSIC WIDGET ──────────────────────────────────────────────────
+const sidebarMusic = { playing: false, currentType: 'rain' };
+
+function toggleSidebarMusic() {
+  const panel   = document.getElementById('sm-panel');
+  const chevron = document.getElementById('sm-chevron');
+  if (!panel || !chevron) return;
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display     = isOpen ? 'none' : 'block';
+  chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+function selectSidebarTrack(type, btn) {
+  sidebarMusic.currentType = type;
+  document.querySelectorAll('.sm-track').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (sidebarMusic.playing) startAmbientMusic(type);
+}
+
+function toggleSidebarMusicPlay() {
+  if (sidebarMusic.playing) {
+    stopAmbientMusic();
+    sidebarMusic.playing = false;
+    _smSetStopped();
+  } else {
+    startAmbientMusic(sidebarMusic.currentType);
+    sidebarMusic.playing = true;
+    _smSetPlaying();
+  }
+}
+
+function _smSetPlaying() {
+  const icon   = document.getElementById('sm-play-icon');
+  const label  = document.getElementById('sm-play-label');
+  const status = document.getElementById('sm-status');
+  const btn    = document.getElementById('sm-play-btn');
+  if (icon)   icon.className   = 'fa-solid fa-stop';
+  if (label)  label.textContent = 'Stop';
+  if (status) status.textContent = 'Playing';
+  if (btn)    btn.classList.add('playing');
+}
+
+function _smSetStopped() {
+  const icon   = document.getElementById('sm-play-icon');
+  const label  = document.getElementById('sm-play-label');
+  const status = document.getElementById('sm-status');
+  const btn    = document.getElementById('sm-play-btn');
+  if (icon)   icon.className   = 'fa-solid fa-play';
+  if (label)  label.textContent = 'Play';
+  if (status) status.textContent = '';
+  if (btn)    btn.classList.remove('playing');
 }

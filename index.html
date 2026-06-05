@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CIL Cracker — Coal India MT E&T Prep</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/symbols.css">
 </head>
 <body>
 
@@ -20,40 +22,73 @@
   <nav class="sidebar-nav">
     <div class="nav-section-label">Study</div>
     <a href="javascript:void(0)" class="nav-item active" data-section="dashboard" onclick="navigateTo('dashboard')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span class="nav-label">Dashboard</span>
+      <i class="fa-solid fa-gauge nav-icon"></i><span class="nav-label">Dashboard</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="subjects" onclick="navigateTo('subjects')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-      <span class="nav-label">Subjects</span>
+      <i class="fa-solid fa-book-open nav-icon"></i><span class="nav-label">Subjects</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="mocktest" onclick="navigateTo('mocktest')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-      <span class="nav-label">Mock Test</span>
+      <i class="fa-solid fa-bullseye nav-icon"></i><span class="nav-label">Mock Test</span>
     </a>
     <div class="nav-section-label">Resources</div>
     <a href="javascript:void(0)" class="nav-item" data-section="playlists" onclick="navigateTo('playlists')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-      <span class="nav-label">Video Library</span>
+      <i class="fa-solid fa-video nav-icon"></i><span class="nav-label">Video Library</span>
       <span class="nav-badge" id="video-badge" style="display:none">0</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="formulas" onclick="navigateTo('formulas')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>
-      <span class="nav-label">Formula Sheet</span>
+      <i class="fa-solid fa-square-root-variable nav-icon"></i><span class="nav-label">Formula Sheet</span>
+    </a>
+    <a href="javascript:void(0)" class="nav-item" data-section="symbols" onclick="navigateTo('symbols')">
+      <i class="fa-solid fa-atom nav-icon"></i><span class="nav-label">Symbols</span>
+      <span class="nav-badge" style="background:linear-gradient(135deg,#059669,#3b82f6);color:#fff;font-size:9px;padding:2px 6px">NEW</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="examinfo" onclick="navigateTo('examinfo')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-      <span class="nav-label">Exam Info</span>
+      <i class="fa-solid fa-file-lines nav-icon"></i><span class="nav-label">Exam Info</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="search" onclick="navigateTo('search')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <span class="nav-label">Search Topics</span>
+      <i class="fa-solid fa-magnifying-glass nav-icon"></i><span class="nav-label">Search Topics</span>
     </a>
     <a href="javascript:void(0)" class="nav-item" data-section="mistakebook" onclick="navigateTo('mistakebook')">
-      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
-      <span class="nav-label">Mistake Book</span>
+      <i class="fa-solid fa-book-bookmark nav-icon"></i><span class="nav-label">Mistake Book</span>
+    </a>
+    <div class="nav-section-label" style="margin-top:8px">Focus</div>
+    <a href="javascript:void(0)" class="nav-item nav-item-focus" onclick="openFocusSetup()">
+      <i class="fa-solid fa-crosshairs nav-icon"></i><span class="nav-label">Focus Mode</span>
+      <span class="nav-badge" style="background:linear-gradient(135deg,#7c3aed,#3b82f6);color:#fff;font-size:9px;padding:2px 6px">NEW</span>
     </a>
   </nav>
+
+  <!-- Music Widget (always accessible) -->
+  <div class="sidebar-music" id="sidebar-music">
+    <button class="sm-header" onclick="toggleSidebarMusic()">
+      <i class="fa-solid fa-headphones sm-icon"></i>
+      <span class="sm-title">Study Music</span>
+      <span class="sm-status" id="sm-status"></span>
+      <i class="fa-solid fa-chevron-down sm-chevron" id="sm-chevron"></i>
+    </button>
+    <div class="sm-panel" id="sm-panel" style="display:none">
+      <div class="sm-tracks">
+        <button class="sm-track active" data-ambtype="rain" onclick="selectSidebarTrack('rain',this)">
+          <i class="fa-solid fa-cloud-rain"></i> Rain Sounds
+        </button>
+        <button class="sm-track" data-ambtype="focus" onclick="selectSidebarTrack('focus',this)">
+          <i class="fa-solid fa-brain"></i> Focus Tones
+        </button>
+        <button class="sm-track" data-ambtype="ambient" onclick="selectSidebarTrack('ambient',this)">
+          <i class="fa-solid fa-music"></i> Ambient Chords
+        </button>
+      </div>
+      <div class="sm-vol-row">
+        <i class="fa-solid fa-volume-low" style="font-size:11px;color:var(--sidebar-text)"></i>
+        <input type="range" class="sm-vol-slider" id="sm-volume" min="0" max="100" value="60" oninput="setAmbientVolume(this.value)">
+        <span id="sm-vol-pct" style="font-size:10px;color:var(--sidebar-text);min-width:26px">60%</span>
+      </div>
+      <button class="sm-play-btn" id="sm-play-btn" onclick="toggleSidebarMusicPlay()">
+        <i class="fa-solid fa-play" id="sm-play-icon"></i>
+        <span id="sm-play-label">Play</span>
+      </button>
+    </div>
+  </div>
   <div class="sidebar-footer">
     <div class="user-avatar">AK</div>
     <div style="flex:1;min-width:0">
@@ -89,6 +124,19 @@
     <div class="page-header">
       <h2>Dashboard</h2>
       <p>Coal India MT E&amp;T preparation tracker &mdash; all progress saved automatically</p>
+    </div>
+
+    <!-- Focus Mode Launch Banner -->
+    <div class="focus-launch-banner" onclick="openFocusSetup()">
+      <div class="flb-left">
+        <div class="flb-text">
+          <div class="flb-title">Full Focus Mode</div>
+          <div class="flb-sub">Lock in for 1–3 hours · Block distractions · Study music included</div>
+        </div>
+      </div>
+      <div class="flb-right">
+        <span class="flb-btn">Start Session</span>
+      </div>
     </div>
 
     <!-- 6-stat grid -->
@@ -463,13 +511,13 @@
     <div class="fmode-bar">
       <div class="fmode-tabs">
         <button class="fmode-tab active" data-fmode="formulas"  onclick="switchFormulaMode('formulas')">
-          📋 Formulas
+          <i class="fa-solid fa-list-ul"></i> Formulas
         </button>
         <button class="fmode-tab" data-fmode="visual"    onclick="switchFormulaMode('visual')">
-          🎬 Visual Lab
+          <i class="fa-solid fa-play-circle"></i> Visual Lab
         </button>
         <button class="fmode-tab" data-fmode="practice"  onclick="switchFormulaMode('practice')">
-          🧠 Practice
+          <i class="fa-solid fa-dumbbell"></i> Practice
         </button>
       </div>
     </div>
@@ -585,13 +633,199 @@
     </div>
   </div>
 
+  <!-- ══ SYMBOLS ══ -->
+  <div class="section" id="sec-symbols">
+    <div class="page-header">
+      <h2>Circuit &amp; Logic Symbols</h2>
+      <p>Practice identifying electronic circuit symbols — essential for CIL MT E&amp;T exam (IEEE / IEC standard)</p>
+    </div>
+
+    <!-- Score bar -->
+    <div class="sym-scorebar">
+      <div class="sym-scorebar-item"><span class="sym-sb-val" id="sym-sb-learned">0</span><span class="sym-sb-lbl">Learned</span></div>
+      <div class="sym-scorebar-item"><span class="sym-sb-val" id="sym-sb-total">0</span><span class="sym-sb-lbl">Total Symbols</span></div>
+      <div class="sym-scorebar-item"><span class="sym-sb-val" id="sym-sb-streak">0</span><span class="sym-sb-lbl">Quiz Streak</span></div>
+      <div class="sym-scorebar-item"><span class="sym-sb-val" id="sym-sb-accuracy">--%</span><span class="sym-sb-lbl">Quiz Accuracy</span></div>
+      <button class="sym-reset-btn" onclick="resetSymbolProgress()">↺ Reset</button>
+    </div>
+
+    <!-- Category filter -->
+    <div class="sym-cat-bar" id="sym-cat-bar">
+      <button class="sym-cat active" data-cat="all"         onclick="setSymCat('all')">All</button>
+      <button class="sym-cat" data-cat="passive"    onclick="setSymCat('passive')">Passive</button>
+      <button class="sym-cat" data-cat="semiconductor" onclick="setSymCat('semiconductor')">Semiconductors</button>
+      <button class="sym-cat" data-cat="logic"      onclick="setSymCat('logic')">Logic Gates</button>
+      <button class="sym-cat" data-cat="power"      onclick="setSymCat('power')">Power &amp; Sources</button>
+      <button class="sym-cat" data-cat="instruments" onclick="setSymCat('instruments')">Instruments</button>
+    </div>
+
+    <!-- Mode tabs -->
+    <div class="sym-mode-bar">
+      <button class="sym-mode-btn active" id="symmode-browse"  onclick="setSymMode('browse')"><i class="fa-solid fa-table-cells-large"></i> Browse</button>
+      <button class="sym-mode-btn"        id="symmode-nameQuiz" onclick="setSymMode('nameQuiz')"><i class="fa-solid fa-question-circle"></i> Name Quiz</button>
+      <button class="sym-mode-btn"        id="symmode-symHunt"  onclick="setSymMode('symHunt')"><i class="fa-solid fa-crosshairs"></i> Symbol Hunt</button>
+    </div>
+
+    <!-- Dynamic content area -->
+    <div id="sym-main"></div>
+  </div>
+
   </div><!-- /content -->
 </div><!-- /main -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     FULL FOCUS MODE — SETUP MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div id="focus-setup-overlay" class="focus-setup-overlay" style="display:none">
+  <div class="focus-setup-card">
+    <div class="focus-setup-header">
+      <h2>Full Focus Mode</h2>
+      <p>Block distractions, lock your screen, study with music for 1–3 hours</p>
+    </div>
+
+    <!-- Duration -->
+    <div class="focus-setup-section">
+      <div class="focus-setup-label">How long will you study?</div>
+      <div class="focus-dur-grid">
+        <button class="focus-dur-btn" data-mins="60"  onclick="selectFocusDuration(60)">
+          <span class="dur-h">1h</span><span class="dur-m">60 min</span>
+        </button>
+        <button class="focus-dur-btn" data-mins="90"  onclick="selectFocusDuration(90)">
+          <span class="dur-h">1.5h</span><span class="dur-m">90 min</span>
+        </button>
+        <button class="focus-dur-btn selected" data-mins="120" onclick="selectFocusDuration(120)">
+          <span class="dur-h">2h</span><span class="dur-m">120 min</span>
+        </button>
+        <button class="focus-dur-btn" data-mins="150" onclick="selectFocusDuration(150)">
+          <span class="dur-h">2.5h</span><span class="dur-m">150 min</span>
+        </button>
+        <button class="focus-dur-btn" data-mins="180" onclick="selectFocusDuration(180)">
+          <span class="dur-h">3h</span><span class="dur-m">180 min</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Subject -->
+    <div class="focus-setup-section">
+      <div class="focus-setup-label">What are you studying?</div>
+      <select id="focus-subject-select" class="focus-subject-select">
+        <option>Digital Electronics</option>
+        <option>Network Theory</option>
+        <option>Analog Electronics</option>
+        <option>Signals &amp; Systems</option>
+        <option>Control Systems</option>
+        <option>Communications</option>
+        <option>Aptitude &amp; Reasoning</option>
+        <option>Full Revision</option>
+      </select>
+    </div>
+
+    <!-- Music -->
+    <div class="focus-setup-section">
+      <div class="focus-setup-label">Study Music</div>
+      <div class="focus-music-setup-grid">
+        <button class="focus-music-setup-btn selected" data-music="lofi"   onclick="selectFocusMusic('lofi')">
+          <span class="fms-name">Lofi Hip Hop</span><span class="fms-sub">Chill beats</span>
+        </button>
+        <button class="focus-music-setup-btn" data-music="nature" onclick="selectFocusMusic('nature')">
+          <span class="fms-name">Nature Sounds</span><span class="fms-sub">Rain &amp; forest</span>
+        </button>
+        <button class="focus-music-setup-btn" data-music="piano"  onclick="selectFocusMusic('piano')">
+          <span class="fms-name">Piano Music</span><span class="fms-sub">Relaxing piano</span>
+        </button>
+        <button class="focus-music-setup-btn" data-music="none"   onclick="selectFocusMusic('none')">
+          <span class="fms-name">No Music</span><span class="fms-sub">Silent session</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="focus-setup-actions">
+      <button class="focus-start-btn" onclick="startFocusMode()">Start Focus Session</button>
+      <button class="focus-cancel-btn" onclick="closeFocusSetup()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     FULL FOCUS MODE — FLOATING HUD (non-blocking, website stays usable)
+═══════════════════════════════════════════════════════════════ -->
+
+<!-- FLOATING HUD BAR (sticks to bottom, website fully usable above it) -->
+<div id="focus-hud" class="focus-hud" style="display:none">
+  <div class="fhud-left">
+    <span class="fhud-live-dot"></span>
+    <span class="fhud-subject" id="fhud-subject">Digital Electronics</span>
+  </div>
+
+  <div class="fhud-center">
+    <div class="fhud-timer" id="fhud-timer">02:00:00</div>
+    <div class="fhud-timer-lbl">remaining</div>
+  </div>
+
+  <div class="fhud-right">
+    <div class="fhud-pill fhud-break-pill">Break: <span id="fhud-break">45:00</span></div>
+    <div class="fhud-pill fhud-dist-pill" id="fhud-dist-pill">Distractions: <span id="fhud-distractions">0</span></div>
+    <button class="fhud-icon-btn" id="fhud-music-btn" onclick="toggleFocusMusicPanel()" title="Study Music"><i class="fa-solid fa-headphones"></i> Music</button>
+    <button class="fhud-exit-btn" onclick="confirmExitFocus()"><i class="fa-solid fa-stop"></i> End Session</button>
+  </div>
+
+  <!-- Music popup -->
+  <div id="fhud-music-popup" class="fhud-music-popup" style="display:none">
+    <div class="fhud-popup-title">Study Music (Optional)</div>
+    <div class="fhud-music-opts" id="fhud-music-opts">
+      <button class="fhud-mopt selected" data-music="rain"    onclick="selectFocusMusicHUD('rain')"><i class="fa-solid fa-cloud-rain"></i> Rain Sounds</button>
+      <button class="fhud-mopt" data-music="focus"   onclick="selectFocusMusicHUD('focus')"><i class="fa-solid fa-brain"></i> Focus Tones</button>
+      <button class="fhud-mopt" data-music="ambient" onclick="selectFocusMusicHUD('ambient')"><i class="fa-solid fa-music"></i> Ambient Chords</button>
+    </div>
+    <div class="fhud-vol-row">
+      <i class="fa-solid fa-volume-low" style="font-size:11px"></i>
+      <input type="range" class="fhud-vol-slider" id="fhud-volume" min="0" max="100" value="60" oninput="setAmbientVolume(this.value)">
+      <span id="focus-vol-pct" style="font-size:11px;min-width:28px">60%</span>
+    </div>
+    <div class="fhud-popup-actions">
+      <button class="fhud-play-btn" id="fhud-play-btn" onclick="playFocusMusic()"><i class="fa-solid fa-play"></i> Play Music</button>
+      <button class="fhud-stop-btn" id="fhud-stop-btn" onclick="stopFocusMusic()" style="display:none"><i class="fa-solid fa-stop"></i> Stop</button>
+    </div>
+  </div>
+</div>
+
+<!-- BREAK REMINDER (small toast, non-blocking) -->
+<div id="focus-break-toast" class="focus-break-toast" style="display:none">
+  <div class="fbt-text">
+    <div class="fbt-title">45-min mark — take a short break!</div>
+    <div class="fbt-sub">Stretch, hydrate, then continue.</div>
+  </div>
+  <button class="fbt-close" onclick="dismissBreakReminder()">Continue</button>
+</div>
+
+<!-- EXIT CONFIRM MODAL (small, non-blocking) -->
+<div id="focus-confirm-modal" class="focus-confirm-modal" style="display:none">
+  <div class="fcm-card">
+    <div class="fcm-title">End Focus Session?</div>
+    <div class="fcm-body">You've studied for <strong id="focus-elapsed-display">0 min</strong>. Progress will be saved.</div>
+    <div class="fcm-actions">
+      <button class="fcm-keep" onclick="cancelExitFocus()">Keep Studying</button>
+      <button class="fcm-end"  onclick="exitFocusMode()">End Session</button>
+    </div>
+  </div>
+</div>
+
+<!-- SESSION COMPLETE (small modal) -->
+<div id="focus-complete-modal" class="focus-confirm-modal" style="display:none">
+  <div class="fcm-card" style="max-width:440px">
+    <div class="fcm-title" id="focus-complete-title">Session Complete!</div>
+    <div class="fcm-body" id="focus-complete-body">Great work!</div>
+    <div class="fcm-actions">
+      <button class="fcm-keep" onclick="document.getElementById('focus-complete-modal').style.display='none'">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- YouTube iframe API — must load before app.js -->
 <script src="https://www.youtube.com/iframe_api"></script>
 <script src="js/questions.js"></script>
 <script src="js/visualizations.js"></script>
 <script src="js/app.js"></script>
+<script src="js/symbols.js"></script>
 </body>
 </html>

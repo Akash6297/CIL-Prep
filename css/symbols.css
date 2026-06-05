@@ -1,0 +1,209 @@
+/* ═══════════════════════════════════════════════════════════════
+   SYMBOLS PRACTICE
+═══════════════════════════════════════════════════════════════ */
+.sym-scorebar {
+  display: flex; align-items: center; background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 14px 20px; margin-bottom: 18px; flex-wrap: wrap; gap: 16px;
+}
+.sym-scorebar-item { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+.sym-sb-val { font-size: 22px; font-weight: 800; color: var(--primary); line-height: 1; }
+.sym-sb-lbl { font-size: 11px; color: var(--text-muted); margin-top: 2px; white-space: nowrap; }
+.sym-reset-btn {
+  margin-left: auto; padding: 6px 14px; border-radius: var(--r);
+  border: 1px solid var(--border); background: var(--bg); color: var(--text-muted);
+  font-size: 12px; cursor: pointer; transition: all .15s;
+}
+.sym-reset-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+.sym-cat-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.sym-cat {
+  padding: 7px 16px; border-radius: var(--r-full); border: 1px solid var(--border);
+  background: var(--bg); color: var(--text-muted); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.sym-cat:hover { border-color: var(--primary); color: var(--primary); }
+.sym-cat.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+.sym-mode-bar { display: flex; gap: 8px; margin-bottom: 20px; }
+.sym-mode-btn {
+  padding: 9px 20px; border-radius: var(--r); border: 1.5px solid var(--border);
+  background: var(--bg); color: var(--text-muted); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: all .15s;
+}
+.sym-mode-btn:hover { border-color: var(--primary); color: var(--primary); }
+.sym-mode-btn.active {
+  background: var(--primary); border-color: var(--primary); color: #fff;
+}
+
+/* Browse grid */
+.sym-browse-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px;
+}
+.sym-card {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r-lg);
+  padding: 18px 14px 14px; cursor: pointer; transition: all .18s;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  position: relative;
+}
+.sym-card:hover { border-color: var(--primary); box-shadow: 0 4px 16px rgba(59,130,246,.15); transform: translateY(-2px); }
+.sym-card.learned { border-color: var(--success); }
+.sym-card.learned .sym-check { opacity: 1; }
+.sym-check {
+  position: absolute; top: 8px; right: 8px; width: 18px; height: 18px;
+  background: var(--success); border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 10px; color: #fff; opacity: 0; transition: opacity .2s;
+}
+.sym-svg-wrap {
+  width: 110px; height: 64px; display: flex; align-items: center; justify-content: center;
+}
+.sym-svg-wrap svg { max-width: 100%; max-height: 100%; overflow: visible; }
+.sym-card-name { font-size: 13px; font-weight: 700; color: var(--text); text-align: center; }
+.sym-card-cat {
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
+  color: var(--text-muted); text-align: center;
+}
+
+/* Symbol detail modal */
+.sym-detail-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,.55);
+  z-index: 9100; display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.sym-detail-card {
+  background: var(--card); border-radius: var(--r-xl); max-width: 520px; width: 100%;
+  padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  animation: fFadeIn .2s ease-out;
+}
+.sym-detail-header {
+  display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;
+}
+.sym-detail-title { font-size: 22px; font-weight: 800; }
+.sym-detail-cat {
+  display: inline-block; padding: 3px 10px; border-radius: var(--r-full);
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  background: var(--primary-muted); color: var(--primary); margin-top: 4px;
+}
+.sym-detail-close {
+  width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border);
+  background: var(--bg); cursor: pointer; font-size: 18px; display: flex;
+  align-items: center; justify-content: center; color: var(--text-muted); flex-shrink: 0;
+}
+.sym-detail-svg {
+  background: var(--bg); border-radius: var(--r-lg); border: 1px solid var(--border);
+  padding: 24px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.sym-detail-svg svg { width: 200px; height: 100px; overflow: visible; }
+.sym-detail-desc { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 12px; }
+.sym-detail-facts { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.sym-detail-fact { display: flex; gap: 8px; font-size: 13px; }
+.sym-detail-fact strong { color: var(--primary); min-width: 80px; flex-shrink: 0; }
+.sym-detail-actions { display: flex; gap: 10px; }
+.sym-mark-learned {
+  flex: 1; padding: 12px; border-radius: var(--r); border: none;
+  background: var(--success); color: #fff; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity .15s;
+}
+.sym-mark-learned:hover { opacity: .85; }
+.sym-mark-learned.already {
+  background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+}
+
+/* Quiz shared */
+.sym-quiz-wrap {
+  max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px;
+}
+.sym-quiz-header {
+  display: flex; justify-content: space-between; align-items: center;
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 14px 18px;
+}
+.sym-quiz-progress { font-size: 13px; font-weight: 700; color: var(--text-muted); }
+.sym-quiz-score { font-size: 13px; font-weight: 700; }
+.sym-quiz-q-card {
+  background: var(--card); border: 1.5px solid var(--border); border-radius: var(--r-lg);
+  padding: 28px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.sym-quiz-label {
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em;
+  color: var(--primary); background: var(--primary-muted); padding: 3px 10px; border-radius: var(--r-full);
+}
+.sym-quiz-prompt { font-size: 16px; font-weight: 700; text-align: center; color: var(--text); }
+.sym-quiz-svg-box {
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px;
+  display: flex; align-items: center; justify-content: center; width: 100%; min-height: 100px;
+}
+.sym-quiz-svg-box svg { width: 160px; height: 80px; overflow: visible; }
+
+/* Name Quiz options */
+.sym-nq-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.sym-nq-opt {
+  padding: 14px 16px; border-radius: var(--r); border: 2px solid var(--border);
+  background: var(--bg); font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: all .15s; text-align: left; color: var(--text);
+  display: flex; align-items: center; gap: 10px;
+}
+.sym-nq-opt:hover:not(:disabled) { border-color: var(--primary); background: var(--primary-muted); }
+.sym-nq-opt.correct { border-color: var(--success)!important; background: #ecfdf5!important; color: #065f46!important; }
+.sym-nq-opt.wrong   { border-color: var(--danger)!important;  background: #fef2f2!important; color: #991b1b!important; }
+.sym-nq-letter {
+  width: 26px; height: 26px; border-radius: 50%; background: var(--border);
+  font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background .15s;
+}
+.sym-nq-opt.correct .sym-nq-letter { background: var(--success); color: #fff; }
+.sym-nq-opt.wrong   .sym-nq-letter { background: var(--danger);  color: #fff; }
+
+/* Symbol Hunt options */
+.sym-sh-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.sym-sh-opt {
+  padding: 16px; border-radius: var(--r); border: 2px solid var(--border);
+  background: var(--bg); cursor: pointer; transition: all .15s;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+}
+.sym-sh-opt:hover:not(:disabled) { border-color: var(--primary); }
+.sym-sh-opt.correct { border-color: var(--success)!important; background: #ecfdf5!important; }
+.sym-sh-opt.wrong   { border-color: var(--danger)!important;  background: #fef2f2!important; }
+.sym-sh-opt svg { width: 100px; height: 55px; overflow: visible; }
+.sym-sh-letter { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+.sym-sh-opt.correct .sym-sh-letter { color: #065f46; }
+.sym-sh-opt.wrong   .sym-sh-letter { color: #991b1b; }
+
+/* Quiz feedback */
+.sym-quiz-fb {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start;
+  animation: fFadeIn .2s ease-out;
+}
+.sym-quiz-fb-icon { font-size: 22px; flex-shrink: 0; }
+.sym-quiz-fb-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+.sym-quiz-fb-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.sym-quiz-next {
+  padding: 13px 32px; border-radius: var(--r); border: none;
+  background: var(--primary); color: #fff; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: opacity .15s; align-self: flex-end;
+}
+.sym-quiz-next:hover { opacity: .85; }
+
+/* Quiz results */
+.sym-results-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: var(--r-xl);
+  padding: 32px; text-align: center;
+}
+.sym-results-ring-wrap { display: flex; justify-content: center; margin: 16px 0 20px; }
+.sym-results-ring { position: relative; width: 110px; height: 110px; }
+.sym-results-ring svg { transform: rotate(-90deg); }
+.sym-results-pct {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; font-weight: 800;
+}
+.sym-results-grade { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+.sym-results-stats { display: flex; gap: 12px; justify-content: center; margin: 16px 0; flex-wrap: wrap; }
+.sym-results-stat {
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-lg);
+  padding: 12px 20px; min-width: 80px;
+}
+.sym-results-stat-val { font-size: 20px; font-weight: 800; }
+.sym-results-stat-lbl { font-size: 11px; color: var(--text-muted); }
+.sym-results-btns { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
